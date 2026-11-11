@@ -1,0 +1,1967 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Naukri Resume</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://api.fontshare.com/v2/css?f[]=satoshi@500,600,700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  /* Naukri Leap — chrome (cool gray on white) */
+  --sidebar:#FFFFFF;
+  --sidebar2:#F5F5F7;
+  --sidebar3:#EEF3FF;
+  --sborder:#E8E8E8;
+  --st1:#1A1A1A;
+  --st2:#606060;
+  --st3:#8E8E8E;
+  /* Canvas + paper */
+  --canvas:#F5F5F7;
+  --paper:#FFFFFF;
+  --pborder:#E8E8E8;
+  --t1:#333333;
+  --t2:#606060;
+  --t3:#8E8E8E;
+  /* Naukri primary blue + Pro amber */
+  --accent:#457EFF;
+  --accent2:#E5A300;
+  --acbg:#EEF3FF;
+  --pro-gold:#E5A300;
+  --pro-bg:#FFF8ED;
+  --pro-grad:linear-gradient(135deg,#E5A300,#FFC95C);
+  --pro-bg-grad:linear-gradient(135deg,#FFF8ED,#FCE9C2);
+  /* Status (Naukri Leap semantics) */
+  --ok:#4CAF50;
+  --okbg:#E8F5E9;
+  --bad:#D00416;
+  --badbg:#FFE0E6;
+  --info:#457EFF;
+  --infobg:#EEF3FF;
+  --panel:#FFFFFF;
+  --pborder2:#E8E8E8;
+  /* Radii: cards 12, buttons 8, pill 100 */
+  --r:12px;--rs:8px;--rp:100px;
+  /* Typography: Inter primary, Satoshi for display */
+  --fui:'Inter',system-ui,sans-serif;
+  --fdis:'Satoshi','Inter',system-ui,sans-serif;
+  --fres:'Inter',Georgia,serif;
+  --sh:0 1px 2px rgba(0,0,0,.04),0 1px 3px rgba(0,0,0,.06);
+  --shm:0 2px 8px rgba(0,0,0,.06),0 8px 16px rgba(0,0,0,.04);
+}
+body{font-family:var(--fui);background:var(--canvas);color:var(--t1);font-size:14px;overflow:hidden;height:100vh;display:flex;flex-direction:column;}
+
+/* ── TOPBAR ── */
+.topbar{background:var(--sidebar);border-bottom:1px solid var(--sborder);height:52px;display:flex;align-items:center;padding:0 16px;gap:16px;flex-shrink:0;z-index:200;}
+.logo{font-family:var(--fui);font-size:22px;font-weight:800;color:#1A1A1A;letter-spacing:-.03em;flex-shrink:0;line-height:1;display:flex;align-items:baseline;}
+.logo .logo-dot{color:#FF6B00;font-weight:800;}
+.logo .logo-mark{color:var(--accent);font-size:11px;font-weight:600;margin-left:8px;letter-spacing:.04em;text-transform:uppercase;align-self:center;padding:2px 7px;border-radius:var(--rp);background:var(--acbg);font-family:var(--fui);}
+.versions{display:flex;gap:2px;margin-left:8px;}
+.vtab{padding:4px 14px;border-radius:var(--rp);font-size:12px;color:var(--st3);cursor:pointer;border:none;background:none;font-family:var(--fui);transition:all .15s;position:relative;}
+.vtab:hover{background:var(--sidebar3);color:var(--st1);}
+.vtab.on{background:var(--accent);color:#fff;}
+.vtab .vbadge{position:absolute;top:2px;right:4px;width:6px;height:6px;border-radius:50%;background:var(--ok);}
+.btn-new-ver{padding:4px 12px;border-radius:var(--rp);border:1px dashed var(--sborder);color:var(--st3);font-size:12px;cursor:pointer;background:none;font-family:var(--fui);transition:all .15s;}
+.btn-new-ver:hover{border-color:var(--accent);color:var(--accent);}
+.score-pill{display:flex;align-items:center;gap:8px;margin-left:auto;background:var(--sidebar2);border:1px solid var(--sborder);border-radius:var(--rp);padding:0 14px 0 3px;height:34px;box-sizing:border-box;transition:opacity .25s;}
+.score-pill.stale{opacity:.55;}
+.score-ring{position:relative;width:32px;height:32px;flex-shrink:0;}
+.score-ring svg{width:32px;height:32px;transform:rotate(-90deg);}
+.score-circle-bg{fill:none;stroke:var(--sborder);stroke-width:3;}
+.score-circle{fill:none;stroke:var(--accent2);stroke-width:3;stroke-linecap:round;transition:stroke-dashoffset .6s ease;}
+.score-num{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;color:var(--accent2);font-family:var(--fdis);}
+.score-info .si-n{font-size:17px;font-weight:600;color:var(--st1);font-family:var(--fdis);line-height:1;display:flex;align-items:baseline;gap:5px;}
+.score-info .si-pct{font-size:10.5px;font-weight:500;color:var(--st3);font-family:var(--fui);}
+.score-info .si-l{font-size:10px;color:var(--st3);margin-top:3px;letter-spacing:.04em;text-transform:uppercase;font-family:var(--fdis);font-weight:600;}
+.ats-logo{width:22px;height:22px;border-radius:5px;background:linear-gradient(135deg,#457EFF 0%,#3B6CF0 100%);color:#fff;font-family:var(--fui);font-weight:800;font-size:8px;letter-spacing:.03em;display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 1px 3px rgba(69,126,255,.35),inset 0 1px 0 rgba(255,255,255,.25),inset 0 -1px 0 rgba(0,0,0,.08);}
+.topbar-actions{display:flex;gap:8px;align-items:center;margin-left:auto;}
+
+/* ── EDITOR TOOLBAR (sits above the resume paper, inside the canvas) ── */
+.editor-toolbar{width:100%;max-width:820px;margin:0 auto 14px;display:flex;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;}
+.subnav-btn{padding:0 14px;height:34px;border-radius:var(--rp);border:1px solid var(--sborder);background:#fff;color:var(--st2);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--fui);transition:all .15s;display:inline-flex;align-items:center;gap:6px;line-height:1;box-shadow:var(--sh);}
+.subnav-btn:hover{border-color:var(--accent);color:var(--accent);background:var(--acbg);}
+.subnav-btn.on{border-color:var(--accent);color:var(--accent);background:var(--acbg);}
+.subnav-btn-pro{border:1px solid #E5A300;background:linear-gradient(135deg,#FFF5E0 0%,#FFE8B8 100%);color:#8A5A00;}
+.subnav-btn-pro:hover{background:linear-gradient(135deg,#FFE8B8 0%,#FFD884 100%);border-color:#E5A300;color:#6B4500;}
+.subnav-btn-pro.on{background:linear-gradient(135deg,#E5A300 0%,#FFC95C 100%);border-color:#E5A300;color:#fff;box-shadow:0 2px 6px rgba(229,163,0,.35);}
+.subnav-btn-pro .pro-pill-mini{font-size:8px;font-weight:800;padding:2px 5px;background:#fff;color:#8A5A00;border-radius:var(--rp);letter-spacing:.06em;font-family:var(--fdis);line-height:1;}
+.subnav-btn-pro.on .pro-pill-mini{background:rgba(255,255,255,.95);color:#8A5A00;}
+.editor-toolbar .score-pill{cursor:pointer;margin:0;box-shadow:var(--sh);}
+.editor-toolbar .score-pill:hover{border-color:var(--accent);}
+.lp.hidden,.rp.hidden{display:none;}
+.tbtn{padding:0 18px;height:34px;width:124px;border-radius:var(--rp);font-size:12px;font-weight:500;cursor:pointer;font-family:var(--fui);border:none;transition:all .15s;display:inline-flex;align-items:center;justify-content:center;gap:5px;line-height:1;white-space:nowrap;box-sizing:border-box;}
+.tbtn-ghost{background:var(--sidebar3);color:var(--st2);border:1px solid var(--sborder);}
+.tbtn-ghost:hover{background:var(--sidebar2);color:var(--st1);}
+.tbtn-accent{background:var(--accent);color:#fff;}
+.tbtn-accent:hover{opacity:.88;}
+.tbtn-ok{background:var(--ok);color:#fff;}
+.tbtn.tbtn-pro{background:linear-gradient(135deg,#E5A300,#FFC95C);color:#fff;}
+.tbtn.tbtn-pro:hover{opacity:.92;}
+.tbtn .pro-pill-mini{font-size:8px;font-weight:800;padding:2px 5px;background:rgba(255,255,255,.95);color:#9A3412;border-radius:var(--rp);letter-spacing:.06em;font-family:var(--fdis);line-height:1;}
+
+/* ── DOWNLOAD POPOVER ── */
+.download-wrap{position:relative;}
+.download-popover{position:absolute;top:calc(100% + 10px);right:0;width:280px;background:#fff;border:1px solid var(--pborder);border-radius:var(--r);box-shadow:0 10px 30px rgba(0,0,0,.14),0 3px 8px rgba(0,0,0,.06);padding:14px;z-index:300;display:none;animation:dlPopIn .18s ease-out;}
+.download-popover.on{display:block;}
+.download-popover::before{content:'';position:absolute;top:-6px;right:54px;width:11px;height:11px;background:#fff;border-left:1px solid var(--pborder);border-top:1px solid var(--pborder);transform:rotate(45deg);}
+@keyframes dlPopIn{from{opacity:0;transform:translateY(-8px);}to{opacity:1;transform:translateY(0);}}
+.dlp-title{font-size:13px;font-weight:600;color:var(--t1);margin-bottom:10px;font-family:var(--fui);}
+.dlp-toggle-row{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px;background:var(--canvas);border-radius:var(--rs);margin-bottom:10px;}
+.dlp-toggle-info{flex:1;}
+.dlp-toggle-name{font-size:12px;font-weight:600;color:var(--t1);font-family:var(--fui);}
+.dlp-toggle-desc{font-size:10.5px;color:var(--t2);margin-top:2px;line-height:1.4;}
+.toggle{position:relative;width:38px;height:22px;flex-shrink:0;cursor:pointer;display:inline-block;}
+.toggle input{position:absolute;opacity:0;width:0;height:0;margin:0;}
+.toggle-track{position:absolute;inset:0;background:#cbd5e1;border-radius:11px;transition:background .2s;}
+.toggle input:checked + .toggle-track{background:var(--ok);}
+.toggle-knob{position:absolute;top:2px;left:2px;width:18px;height:18px;background:#fff;border-radius:50%;box-shadow:0 1px 3px rgba(0,0,0,.2);transition:left .2s;pointer-events:none;}
+.toggle input:checked ~ .toggle-knob{left:18px;}
+.dlp-pro-hint{font-size:11px;color:#9A3412;margin-bottom:10px;display:flex;align-items:center;gap:6px;background:linear-gradient(135deg,#FFF8ED,#FCE9C2);padding:8px 10px;border-radius:var(--rs);border:1px solid #F5D676;font-family:var(--fui);font-weight:500;}
+.dlp-action{width:100%;padding:10px;border-radius:var(--rs);font-size:13px;font-weight:600;cursor:pointer;font-family:var(--fui);border:none;transition:all .15s;display:flex;align-items:center;justify-content:center;gap:5px;}
+.dlp-action.free{background:var(--ok);color:#fff;}
+.dlp-action.free:hover{background:#0E8E3F;}
+.dlp-action.pro{background:linear-gradient(135deg,#E5A300,#FFC95C);color:#fff;}
+.dlp-action.pro:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(229,163,0,.3);}
+
+/* ── MAIN ── */
+.main{display:flex;flex:1;overflow:hidden;}
+
+/* ── LEFT PANEL ── */
+.lp{width:220px;background:var(--sidebar);border-right:1px solid var(--sborder);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;}
+.lp::-webkit-scrollbar{width:4px;}
+.lp::-webkit-scrollbar-thumb{background:var(--sborder);}
+.lsec{padding:16px 14px;}
+.lsec-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--st3);font-weight:600;margin-bottom:10px;font-family:var(--fdis);}
+.sec-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--rs);cursor:pointer;transition:background .15s;margin-bottom:2px;border:none;background:none;width:100%;font-family:var(--fui);}
+.sec-item:hover{background:var(--sidebar3);}
+.sec-item.on{background:var(--sidebar3);}
+.sec-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.sec-name{font-size:13px;color:var(--st2);text-align:left;}
+.sec-item.on .sec-name{color:var(--st1);}
+.sec-score{font-size:10px;font-weight:600;font-family:var(--fdis);margin-left:auto;}
+.sec-alert{width:8px;height:8px;border-radius:50%;background:var(--accent);flex-shrink:0;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.sec-mistakes{background:#D00416;color:#fff;font-size:9.5px;font-weight:700;padding:2px 6px;border-radius:var(--rp);font-family:var(--fdis);cursor:pointer;transition:transform .12s,box-shadow .12s;flex-shrink:0;line-height:1.2;border:none;letter-spacing:.02em;animation:mistakePulse 2.6s ease-out infinite;}
+.sec-mistakes:hover{transform:scale(1.12);box-shadow:0 2px 6px rgba(220,38,38,.45);}
+@keyframes mistakePulse{0%{box-shadow:0 0 0 0 rgba(220,38,38,.5);}70%{box-shadow:0 0 0 5px rgba(220,38,38,0);}100%{box-shadow:0 0 0 0 rgba(220,38,38,0);}}
+.lp-div{border-top:1px solid var(--sborder);margin:4px 14px;}
+.tp-thumb{display:flex;flex-direction:column;gap:6px;}
+.tp-item{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:var(--rs);cursor:pointer;transition:all .15s;border:1px solid transparent;}
+.tp-item:hover{background:var(--sidebar3);}
+.tp-item.on{border-color:var(--accent);background:rgba(229,163,0,.1);}
+.tp-preview{width:32px;height:42px;border-radius:3px;overflow:hidden;flex-shrink:0;border:1px solid var(--sborder);}
+.tp-name{font-size:12px;color:var(--st2);}
+.tp-item.on .tp-name{color:var(--accent);}
+
+/* ── TEMPLATE GALLERY (2×2 grid) ── */
+.tpl-filter{display:flex;background:var(--sidebar2);border-radius:var(--rp);padding:3px;margin-bottom:10px;gap:1px;}
+.tpl-filter-btn{flex:1;padding:5px 8px;border:none;background:none;font-size:11px;color:var(--st2);cursor:pointer;border-radius:var(--rp);font-family:var(--fui);font-weight:500;transition:all .15s;line-height:1;}
+.tpl-filter-btn:hover{color:var(--st1);}
+.tpl-filter-btn.on{background:#fff;color:var(--st1);box-shadow:0 1px 3px rgba(0,0,0,.08);}
+.tpl-filter-btn.pro-tab{font-weight:700;}
+.tpl-filter-btn.pro-tab.on{color:var(--accent);}
+.tpl-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px;}
+.tpl-card{position:relative;border:1.5px solid var(--sborder);border-radius:var(--rs);overflow:hidden;cursor:pointer;background:#fff;transition:all .15s;aspect-ratio:.76;}
+.tpl-card:hover{border-color:var(--accent);transform:translateY(-1px);box-shadow:var(--sh);}
+.tpl-card.on{border-color:var(--accent);box-shadow:0 0 0 2px var(--acbg);}
+.tpl-tier{position:absolute;top:5px;right:5px;font-size:8px;font-weight:700;padding:2px 6px;border-radius:var(--rp);text-transform:uppercase;letter-spacing:.04em;font-family:var(--fdis);z-index:2;line-height:1;}
+.tpl-tier.free{background:var(--okbg);color:var(--ok);}
+.tpl-tier.pro{background:linear-gradient(135deg,#FFF8ED,#FCE9C2);color:#9A3412;}
+.tpl-preview{position:absolute;inset:0 0 22px 0;overflow:hidden;}
+.tpl-prev{padding:5px 6px;background:#fff;display:flex;flex-direction:column;gap:4px;height:100%;}
+.pp-head{display:flex;flex-direction:column;gap:2px;}
+.pp-name{height:5px;width:55%;border-radius:1px;}
+.pp-title{height:2.5px;width:38%;border-radius:1px;}
+.pp-body{display:flex;flex-direction:column;gap:5px;margin-top:2px;}
+.pp-section{display:flex;flex-direction:column;gap:1.5px;}
+.pp-st{height:2.5px;width:30%;border-radius:.5px;margin-bottom:1px;}
+.pp-line{height:1.5px;width:88%;border-radius:.5px;}
+.pp-line.short{width:65%;}
+.tpl-prev-classic .pp-name{background:#1A1714;}
+.tpl-prev-classic .pp-title{background:#aaa;}
+.tpl-prev-classic .pp-head{border-bottom:1px solid #1A1714;padding-bottom:3px;}
+.tpl-prev-classic .pp-st{background:#1A1714;}
+.tpl-prev-classic .pp-line{background:#ccc;}
+.tpl-prev-modern{padding:0;}
+.tpl-prev-modern .pp-head{background:#1A2744;padding:6px;border-bottom:none;}
+.tpl-prev-modern .pp-name{background:#fff;}
+.tpl-prev-modern .pp-title{background:rgba(255,255,255,.45);}
+.tpl-prev-modern .pp-body{padding:5px 6px;margin-top:0;}
+.tpl-prev-modern .pp-st{background:#1A2744;}
+.tpl-prev-modern .pp-line{background:#ccc;}
+.tpl-prev-minimal{border-left:2px solid var(--accent);padding-left:8px;}
+.tpl-prev-minimal .pp-name{background:#666;}
+.tpl-prev-minimal .pp-title{background:#bbb;}
+.tpl-prev-minimal .pp-st{background:var(--accent);}
+.tpl-prev-minimal .pp-line{background:#ddd;}
+.tpl-prev-bold{padding:0;}
+.tpl-prev-bold .pp-head{background:#111;padding:6px;}
+.tpl-prev-bold .pp-name{background:#fff;}
+.tpl-prev-bold .pp-title{background:#E5A300;}
+.tpl-prev-bold .pp-body{padding:5px 6px;margin-top:0;}
+.tpl-prev-bold .pp-st{background:#E5A300;}
+.tpl-prev-bold .pp-line{background:#ccc;}
+/* Custom-color preview: each card sets its own --c-* via inline style */
+.tpl-prev-custom{padding:0;}
+.tpl-prev-custom .pp-head{background:var(--c-head,#fff);padding:6px;border-bottom:none;}
+.tpl-prev-custom .pp-name{background:var(--c-name,#1A1714);}
+.tpl-prev-custom .pp-title{background:var(--c-title,#aaa);}
+.tpl-prev-custom .pp-body{padding:5px 6px;margin-top:0;}
+.tpl-prev-custom .pp-st{background:var(--c-accent,#1A1714);}
+.tpl-prev-custom .pp-line{background:#ccc;}
+/* Right-panel paywall structure: free block on top, paywalled below */
+.rp-free-block{padding-bottom:8px;}
+.rp-locked-block{position:relative;min-height:380px;}
+.tpl-name{position:absolute;bottom:0;left:0;right:0;height:22px;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--st1);background:#fff;border-top:1px solid var(--sborder);font-weight:500;font-family:var(--fui);z-index:1;}
+.tpl-card.on .tpl-name{color:var(--accent);font-weight:600;}
+.tpl-check{position:absolute;top:42%;left:50%;transform:translate(-50%,-50%);width:30px;height:30px;border-radius:50%;background:var(--ok);color:#fff;display:none;align-items:center;justify-content:center;font-size:15px;font-weight:700;z-index:3;box-shadow:0 3px 10px rgba(22,163,74,.4),0 0 0 3px #fff;}
+.tpl-card.on .tpl-check{display:flex;}
+
+/* ── FORMAT CONTROLS ── */
+.fmt-row{margin-bottom:11px;}
+.fmt-row:last-child{margin-bottom:0;}
+.fmt-label{font-size:11px;color:var(--st1);font-weight:500;display:flex;align-items:baseline;gap:4px;margin-bottom:5px;font-family:var(--fui);}
+.fmt-value-sep{color:var(--st3);font-weight:400;}
+.fmt-value{color:var(--accent);font-weight:600;font-size:11px;font-family:var(--fui);}
+.fmt-step-btn svg{display:block;width:10px;height:10px;}
+.fmt-dropdown{position:relative;}
+.fmt-dropdown::after{content:'⌄';position:absolute;right:11px;top:50%;transform:translateY(-65%);pointer-events:none;color:var(--st3);font-size:14px;}
+.fmt-select{width:100%;padding:8px 30px 8px 12px;background:var(--sidebar);border:1px solid var(--sborder);border-radius:var(--rs);font-size:12px;color:var(--st1);cursor:pointer;font-family:var(--fui);appearance:none;-webkit-appearance:none;outline:none;transition:border-color .15s;}
+.fmt-select:hover,.fmt-select:focus{border-color:var(--accent);}
+.theme-circles{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.theme-c{width:24px;height:24px;border-radius:50%;border:none;cursor:pointer;position:relative;transition:transform .15s;padding:0;}
+.theme-c:hover{transform:scale(1.12);}
+.theme-c.on::after{content:'✓';position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:#fff;font-size:13px;font-weight:700;line-height:1;}
+
+/* 3-step slider (Section spacing, Font size) */
+.fmt-stepper{display:flex;align-items:center;gap:9px;}
+.fmt-step-btn{width:22px;height:22px;border-radius:50%;border:1px solid var(--sborder);background:var(--sidebar);color:var(--st2);cursor:pointer;font-size:14px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .15s;font-family:var(--fui);line-height:1;padding:0;}
+.fmt-step-btn:hover:not(:disabled){border-color:var(--accent);color:var(--accent);background:var(--acbg);}
+.fmt-step-btn:active:not(:disabled){transform:scale(.92);}
+.fmt-step-btn:disabled{opacity:.35;cursor:not-allowed;}
+.fmt-track{position:relative;flex:1;height:6px;background:var(--sborder);border-radius:3px;cursor:pointer;}
+.fmt-track-fill{position:absolute;top:0;left:0;height:100%;width:calc(var(--step,2) * 25%);background:var(--accent);border-radius:3px;transition:width .22s ease-out;pointer-events:none;}
+.fmt-tick{position:absolute;top:50%;width:3px;height:3px;border-radius:50%;background:#fff;transform:translate(-50%,-50%);pointer-events:none;box-shadow:0 0 0 1px var(--sborder);}
+.fmt-thumb{position:absolute;top:50%;left:calc(var(--step,2) * 25%);width:22px;height:14px;border-radius:7px;background:var(--accent);transform:translate(-50%,-50%);transition:left .22s ease-out,box-shadow .15s;cursor:grab;box-shadow:0 2px 8px rgba(229,163,0,.45),0 0 0 2px var(--paper);pointer-events:none;}
+.fmt-thumb::after{content:'';position:absolute;top:50%;left:50%;width:4px;height:4px;border-radius:50%;background:rgba(255,255,255,.9);transform:translate(-50%,-50%);}
+.fmt-track:hover .fmt-thumb{box-shadow:0 3px 10px rgba(229,163,0,.55),0 0 0 2px var(--paper);}
+
+/* Resume spacing — 5 levels, Medium is default (no class) */
+.resume.spacing-xs .bullet-wrap{margin-bottom:1px;}
+.resume.spacing-xs .r-bullet{line-height:1.30;}
+.resume.spacing-xs .r-job{margin-bottom:7px;}
+.resume.spacing-xs .r-sec-title{margin-bottom:7px;}
+.resume.spacing-sm .bullet-wrap{margin-bottom:3px;}
+.resume.spacing-sm .r-bullet{line-height:1.42;}
+.resume.spacing-sm .r-job{margin-bottom:12px;}
+.resume.spacing-sm .r-sec-title{margin-bottom:9px;}
+.resume.spacing-lg .bullet-wrap{margin-bottom:8px;}
+.resume.spacing-lg .r-bullet{line-height:1.7;}
+.resume.spacing-lg .r-job{margin-bottom:22px;}
+.resume.spacing-lg .r-sec-title{margin-bottom:16px;}
+.resume.spacing-xl .bullet-wrap{margin-bottom:12px;}
+.resume.spacing-xl .r-bullet{line-height:1.9;}
+.resume.spacing-xl .r-job{margin-bottom:32px;}
+.resume.spacing-xl .r-sec-title{margin-bottom:20px;}
+
+/* Resume font-size — 5 levels via CSS variable multiplier */
+.resume{--fz-mult:1;}
+.resume.fz-xs{--fz-mult:.82;}
+.resume.fz-sm{--fz-mult:.92;}
+.resume.fz-lg{--fz-mult:1.12;}
+.resume.fz-xl{--fz-mult:1.24;}
+
+/* Line height — 5 levels (overrides spacing-* line-height for body text) */
+.resume.lh-xs .r-bullet,.resume.lh-xs .r-summary-text{line-height:1.25;}
+.resume.lh-sm .r-bullet,.resume.lh-sm .r-summary-text{line-height:1.4;}
+.resume.lh-lg .r-bullet,.resume.lh-lg .r-summary-text{line-height:1.8;}
+.resume.lh-xl .r-bullet,.resume.lh-xl .r-summary-text{line-height:2.05;}
+
+/* ── CENTER CANVAS ── */
+.canvas{flex:1;background:var(--canvas);overflow-y:auto;padding:28px 24px;display:flex;flex-direction:column;align-items:center;}
+.canvas::-webkit-scrollbar{width:6px;}
+.canvas::-webkit-scrollbar-thumb{background:var(--pborder);}
+.resume-wrap{width:100%;max-width:720px;}
+
+/* ── RESUME PAPER ── */
+.resume{background:var(--paper);border-radius:var(--r);box-shadow:var(--shm);overflow:hidden;font-family:'Inter',system-ui,sans-serif;transition:all .3s;}
+/* ── TEMPLATE: Classic ── */
+.t-classic .r-head{padding:36px 40px 28px;border-bottom:2px solid var(--t1);}
+.t-classic .r-name{font-family:var(--fres);font-size:28px;font-weight:600;letter-spacing:-.02em;color:var(--t1);}
+.t-classic .r-title{font-family:var(--fres);font-style:italic;font-size:14px;color:var(--t2);margin-top:4px;}
+.t-classic .r-contact{display:flex;gap:18px;margin-top:10px;flex-wrap:wrap;}
+.t-classic .r-ci{font-size:12px;color:var(--t2);font-family:'Inter',system-ui,sans-serif;}
+.t-classic .r-body{padding:24px 40px;display:grid;grid-template-columns:1fr 200px;gap:28px;}
+.t-classic .r-sec-title{font-family:'Inter',system-ui,sans-serif;font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--t1);border-bottom:1px solid var(--t1);padding-bottom:4px;margin-bottom:12px;}
+/* ── TEMPLATE: Modern ── */
+.t-modern .r-head{display:grid;grid-template-columns:1fr;background:#1A2744;padding:32px 40px 28px;}
+.t-modern .r-name{font-family:var(--fdis);font-size:26px;font-weight:600;color:#fff;letter-spacing:-.01em;}
+.t-modern .r-title{font-family:var(--fdis);font-size:14px;color:rgba(255,255,255,.65);margin-top:4px;}
+.t-modern .r-contact{display:flex;gap:16px;margin-top:12px;flex-wrap:wrap;}
+.t-modern .r-ci{font-size:12px;color:rgba(255,255,255,.55);font-family:var(--fui);}
+.t-modern .r-body{padding:28px 40px;display:grid;grid-template-columns:1fr 190px;gap:28px;}
+.t-modern .r-sec-title{font-family:var(--fdis);font-size:12px;font-weight:600;text-transform:uppercase;letter-spacing:.08em;color:#1A2744;border-bottom:2px solid #1A2744;padding-bottom:5px;margin-bottom:12px;}
+/* ── TEMPLATE: Minimal ── */
+.t-minimal .r-head{padding:44px 50px 32px;border-left:3px solid var(--accent);}
+.t-minimal .r-name{font-family:var(--fui);font-size:26px;font-weight:300;letter-spacing:.04em;text-transform:uppercase;color:var(--t1);}
+.t-minimal .r-title{font-family:var(--fui);font-size:13px;color:var(--t3);margin-top:6px;letter-spacing:.04em;text-transform:uppercase;}
+.t-minimal .r-contact{display:flex;gap:20px;margin-top:12px;}
+.t-minimal .r-ci{font-size:12px;color:var(--t3);font-family:var(--fui);}
+.t-minimal .r-body{padding:28px 50px;display:grid;grid-template-columns:1fr 180px;gap:32px;}
+.t-minimal .r-sec-title{font-family:var(--fui);font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.12em;color:var(--accent);margin-bottom:12px;}
+/* ── TEMPLATE: Bold ── */
+.t-bold .r-head{padding:36px 40px 28px;background:#111;}
+.t-bold .r-name{font-family:var(--fdis);font-size:30px;font-weight:600;color:#fff;letter-spacing:-.02em;}
+.t-bold .r-title{font-family:var(--fdis);font-size:14px;color:#E5A300;margin-top:4px;font-weight:300;}
+.t-bold .r-contact{display:flex;gap:18px;margin-top:10px;flex-wrap:wrap;}
+.t-bold .r-ci{font-size:12px;color:rgba(255,255,255,.5);font-family:var(--fui);}
+.t-bold .r-body{padding:28px 40px;display:grid;grid-template-columns:1fr 195px;gap:28px;}
+.t-bold .r-sec-title{font-family:var(--fdis);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:#111;background:#E5A300;display:inline-block;padding:3px 10px;margin-bottom:12px;}
+
+/* ── RESUME CONTENT (shared) ── */
+.r-job{margin-bottom:16px;}
+.r-job-title{font-size:calc(14px * var(--fz-mult,1));font-weight:700;color:var(--t1);font-family:var(--rfont,'Inter'),system-ui,sans-serif;}
+.r-job-co{font-size:calc(13px * var(--fz-mult,1));color:var(--t2);font-family:var(--rfont,'Inter'),system-ui,sans-serif;}
+.r-job-date{font-size:calc(11px * var(--fz-mult,1));color:var(--t3);font-family:var(--rfont,'Inter'),system-ui,sans-serif;margin-top:2px;}
+.r-bullets{margin-top:8px;padding-left:18px;}
+.r-bullet{font-size:calc(13px * var(--fz-mult,1));color:var(--t1);line-height:1.55;font-family:var(--rfont,'Inter'),system-ui,sans-serif;}
+.r-summary-text{font-size:calc(13px * var(--fz-mult,1));color:var(--t2);line-height:1.65;font-family:var(--rfont,'Inter'),system-ui,sans-serif;}
+.bullet-flag-err{color:#7F1D1D;background:#FED4D4;border-radius:2px;padding:1px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+.bullet-flag-warn{color:#155E75;background:#CFF1F5;border-radius:2px;padding:1px 4px;box-decoration-break:clone;-webkit-box-decoration-break:clone;}
+.bullet-wrap{position:relative;cursor:pointer;margin-bottom:5px;list-style:disc;}
+.bullet-wrap:hover .bl-actions{opacity:1;}
+.bl-actions{position:absolute;right:-2px;top:50%;transform:translateY(-50%);opacity:0;transition:opacity .15s;display:flex;gap:4px;background:var(--paper);box-shadow:var(--sh);border-radius:4px;padding:3px 4px;z-index:10;}
+.bl-btn{padding:3px 7px;border-radius:3px;font-size:10px;font-weight:600;cursor:pointer;border:none;font-family:var(--fui);transition:all .15s;position:relative;}
+.bl-ai{background:#EEF3FF;color:#1E3A8A;}
+.bl-ai:hover{background:linear-gradient(135deg,#E5A300,#FFC95C);color:#fff;}
+.bl-ai::after{content:'';position:absolute;top:-2px;right:-2px;width:6px;height:6px;border-radius:50%;background:var(--accent2);box-shadow:0 0 0 2px var(--paper);}
+.bl-rm{background:#FEE2E2;color:#991B1B;}
+.bl-rm:hover{background:#991B1B;color:#fff;}
+.skill-tag{display:inline-block;margin:3px 4px 3px 0;padding:3px 10px;border-radius:var(--rp);font-size:11px;font-family:'Inter',system-ui,sans-serif;}
+
+/* ── Inline coach paywall (Enhancv-style) ── */
+.inline-paywall{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:280px;background:#fff;border:1px solid var(--pborder);box-shadow:0 14px 40px rgba(0,0,0,.16),0 3px 8px rgba(0,0,0,.06);border-radius:var(--r);padding:16px 18px 14px;z-index:25;text-align:center;font-family:var(--fui);}
+.inline-paywall.hidden{display:none;}
+.inline-paywall-close{position:absolute;right:8px;top:8px;width:24px;height:24px;border-radius:50%;border:none;background:transparent;color:var(--t3);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;line-height:1;}
+.inline-paywall-close:hover{background:var(--canvas);color:var(--t1);}
+.inline-paywall-head{display:flex;align-items:center;gap:7px;justify-content:flex-start;font-size:10px;font-weight:700;color:#D00416;letter-spacing:.08em;font-family:var(--fdis);text-transform:uppercase;margin-bottom:8px;}
+.ipd{width:8px;height:8px;border-radius:50%;background:#D00416;flex-shrink:0;}
+.hl-card-illust{display:flex;justify-content:center;margin:4px 0 12px;}
+.hl-card-icon{width:108px;height:76px;border-radius:10px;background:linear-gradient(135deg,#FEF3E2 0%,#DCFCE7 55%,#DBEAFE 100%);display:flex;align-items:center;justify-content:center;font-size:38px;border:1px solid #fff;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04);}
+.inline-paywall-msg{font-size:13px;color:var(--t1);line-height:1.5;margin-bottom:14px;font-family:var(--fui);}
+.inline-paywall-msg b{color:#D00416;font-weight:700;}
+.inline-paywall-cta{width:100%;padding:12px;border-radius:var(--rs);background:#10B981;color:#fff;border:none;font-size:14px;font-weight:600;cursor:pointer;font-family:var(--fui);transition:all .15s;}
+.inline-paywall-cta:hover{background:#059669;transform:translateY(-1px);box-shadow:0 4px 10px rgba(16,185,129,.3);}
+
+/* ── A11Y: focus styles ── */
+button:focus-visible,[contenteditable="true"]:focus-visible,.tp-item:focus-visible,.kw-pill:focus-visible{outline:2px solid var(--accent);outline-offset:2px;border-radius:var(--rs);}
+
+/* ── RIGHT PANEL ── */
+.rp{width:280px;background:var(--panel);border-left:1px solid var(--pborder2);display:flex;flex-direction:column;flex-shrink:0;}
+.rp-tabs{display:flex;border-bottom:1px solid var(--pborder2);flex-shrink:0;}
+.rptab{flex:1;padding:12px 4px;text-align:center;font-size:12px;font-weight:500;color:var(--t3);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;border-top:none;border-left:none;border-right:none;background:none;font-family:var(--fui);display:flex;align-items:center;justify-content:center;gap:5px;}
+.rptab:hover{color:var(--t1);}
+.rptab.on{color:var(--accent);border-bottom-color:var(--accent);}
+.tab-pro{display:inline-block;padding:1px 6px;background:linear-gradient(135deg,#E5A300,#FFC95C);color:#fff;border-radius:var(--rp);font-size:8px;font-weight:700;letter-spacing:.06em;font-family:var(--fdis);text-transform:uppercase;}
+.rp-body{flex:1;overflow-y:auto;padding:16px;position:relative;}
+.rp-body::-webkit-scrollbar{width:4px;}
+.rp-body::-webkit-scrollbar-thumb{background:var(--pborder2);}
+.rp-section-lbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--t3);font-weight:600;margin-bottom:8px;margin-top:16px;font-family:var(--fdis);}
+.rp-section-lbl:first-child{margin-top:0;}
+
+/* Suggestions */
+.sugg-card{background:var(--canvas);border-radius:var(--rs);padding:12px;margin-bottom:8px;border:1px solid var(--pborder);}
+.sugg-type{font-size:10px;font-weight:700;letter-spacing:.06em;margin-bottom:5px;font-family:var(--fdis);}
+.sugg-text{font-size:12px;color:var(--t2);line-height:1.55;}
+.sugg-action{margin-top:8px;padding:5px 12px;border-radius:var(--rp);font-size:11px;font-weight:600;cursor:pointer;border:none;font-family:var(--fui);transition:all .15s;}
+.sa-fix{background:var(--acbg);color:var(--accent);}
+.sa-fix:hover{background:var(--accent);color:#fff;}
+.sa-add{background:var(--infobg);color:var(--info);}
+.sa-add:hover{background:var(--info);color:#fff;}
+
+/* JD Match */
+.jd-input{width:100%;border:1px solid var(--pborder);border-radius:var(--rs);padding:10px;font-size:12px;font-family:var(--fui);color:var(--t1);resize:vertical;min-height:90px;outline:none;background:var(--canvas);transition:border-color .15s;}
+.jd-input:focus{border-color:var(--accent);}
+.analyze-btn{width:100%;margin-top:8px;padding:9px;border-radius:var(--rs);background:var(--accent);color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--fui);transition:opacity .15s;}
+.analyze-btn:hover{opacity:.88;}
+.match-ring-wrap{text-align:center;padding:20px 0 12px;}
+.match-ring-n{font-size:42px;font-weight:300;font-family:var(--fdis);line-height:1;}
+.match-ring-lbl{font-size:12px;color:var(--t3);margin-top:4px;}
+.kw-section{margin-bottom:12px;}
+.kw-lbl{font-size:11px;font-weight:600;color:var(--t2);margin-bottom:6px;display:flex;align-items:center;gap:6px;}
+.kw-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.kw-pills{display:flex;flex-wrap:wrap;gap:4px;}
+.kw-pill{font-size:11px;padding:3px 9px;border-radius:var(--rp);font-family:var(--fui);cursor:pointer;transition:transform .1s;}
+.kw-pill:hover{transform:scale(1.05);}
+.kp-found{background:var(--okbg);color:var(--ok);}
+.kp-miss{background:var(--badbg);color:var(--bad);}
+.kp-prt{background:var(--acbg);color:var(--accent);}
+
+/* Boost AI cards */
+.boost-card{background:var(--canvas);border-radius:var(--rs);padding:12px;margin-bottom:10px;border:1px solid var(--pborder);}
+.boost-orig{font-size:12px;color:var(--t2);line-height:1.5;font-style:italic;border-left:2px solid var(--pborder);padding-left:9px;margin-bottom:10px;}
+.boost-new{font-size:12px;color:var(--t1);line-height:1.5;background:#fff;border-radius:4px;padding:9px;border-left:2px solid var(--ok);}
+
+/* Score bars (right panel) */
+.sec-bar-row{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.sb-label{font-size:12px;color:var(--t2);width:88px;flex-shrink:0;}
+.sb-track{flex:1;height:5px;background:var(--canvas);border-radius:3px;overflow:hidden;}
+.sb-fill{height:100%;border-radius:3px;transition:width .5s ease;}
+.sb-pct{font-size:11px;font-weight:600;font-family:var(--fdis);width:28px;text-align:right;}
+
+/* ── PAYWALL ── */
+.rp-content.locked{filter:blur(3.5px) grayscale(.25);pointer-events:none;user-select:none;}
+.paywall{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(255,255,255,.35) 0%,rgba(255,255,255,.92) 22%,#fff 100%);display:flex;align-items:flex-start;justify-content:center;padding:32px 16px 16px;}
+.paywall-card{background:#fff;border:1px solid var(--pborder);border-radius:var(--r);padding:18px 16px 16px;box-shadow:var(--shm);text-align:center;width:100%;}
+.pro-badge{display:inline-block;padding:3px 10px;background:linear-gradient(135deg,#E5A300,#FFC95C);color:#fff;border-radius:var(--rp);font-size:9px;font-weight:700;font-family:var(--fdis);letter-spacing:.08em;text-transform:uppercase;margin-bottom:10px;box-shadow:0 1px 3px rgba(229,163,0,.3);}
+.paywall-title{font-family:var(--fdis);font-size:16px;font-weight:600;color:var(--t1);margin-bottom:4px;line-height:1.25;}
+.paywall-sub{font-size:12px;color:var(--t2);line-height:1.5;margin-bottom:12px;}
+.paywall-list{list-style:none;padding:0;font-size:11.5px;color:var(--t1);text-align:left;margin:0 0 14px 0;line-height:1.65;background:var(--canvas);border-radius:var(--rs);padding:10px 12px;}
+.paywall-list li{padding-left:0;display:flex;gap:7px;align-items:flex-start;margin:3px 0;}
+.paywall-list li::before{content:'✦';color:var(--accent);font-weight:700;flex-shrink:0;}
+.paywall-cta{width:100%;padding:11px;border-radius:var(--rs);background:linear-gradient(135deg,#E5A300,#FFC95C);color:#fff;border:none;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--fui);transition:transform .15s,opacity .15s;box-shadow:0 2px 6px rgba(229,163,0,.25);}
+.paywall-cta:hover{opacity:.95;transform:translateY(-1px);}
+.paywall-foot{font-size:10px;color:var(--t3);margin-top:8px;}
+
+/* ── OVERLAY / MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(20,20,28,.55);z-index:500;align-items:center;justify-content:center;animation:fadeIn .15s;backdrop-filter:blur(2px);}
+.overlay.on{display:flex;}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+.modal{background:#fff;border-radius:var(--r);padding:28px;max-width:520px;width:90%;max-height:80vh;overflow-y:auto;animation:slideUp .2s ease;}
+@keyframes slideUp{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.modal-title{font-family:var(--fdis);font-size:20px;font-weight:600;margin-bottom:4px;}
+.modal-sub{font-size:13px;color:var(--t2);margin-bottom:20px;}
+.modal-close{position:absolute;right:24px;top:20px;width:30px;height:30px;border-radius:50%;border:none;background:var(--canvas);cursor:pointer;font-size:16px;color:var(--t2);display:flex;align-items:center;justify-content:center;}
+
+/* Confetti */
+.confetti-piece{position:fixed;width:8px;height:8px;border-radius:2px;animation:confettiFall 1.2s ease-in forwards;pointer-events:none;z-index:9999;}
+@keyframes confettiFall{0%{transform:translateY(-20px) rotate(0deg);opacity:1}100%{transform:translateY(100vh) rotate(720deg);opacity:0}}
+
+/* toast */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--t1);color:#fff;padding:10px 20px;border-radius:var(--rp);font-size:13px;font-weight:500;font-family:var(--fui);opacity:0;transition:all .3s;z-index:999;pointer-events:none;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+body.voice-open .toast{bottom:auto;top:72px;}
+
+/* ── VOICE EDITOR ── */
+.voice-wrap{position:sticky;bottom:0;z-index:60;flex-shrink:0;margin-top:18px;display:flex;flex-direction:column;align-items:center;width:100%;max-width:460px;}
+.voice-fab{display:inline-flex;align-items:center;gap:9px;height:44px;padding:0 18px 0 6px;border-radius:var(--rp);border:1px solid var(--accent);background:#fff;color:var(--st1);font-family:var(--fui);font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(69,126,255,.22);transition:transform .15s,box-shadow .15s;}
+.voice-fab:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(69,126,255,.32);}
+.voice-fab .v-new{font-size:8px;font-weight:800;letter-spacing:.06em;padding:2px 6px;border-radius:var(--rp);background:var(--acbg);color:var(--accent);font-family:var(--fdis);}
+.voice-orb{width:32px;height:32px;border-radius:50%;border:none;background:linear-gradient(135deg,#457EFF,#3B6CF0);color:#fff;display:flex;align-items:center;justify-content:center;flex-shrink:0;position:relative;}
+.voice-orb svg{width:15px;height:15px;}
+.voice-fab .voice-orb::after{content:'';position:absolute;inset:-4px;border-radius:50%;border:2px solid rgba(69,126,255,.35);animation:vPulse 2.2s ease-out infinite;}
+@keyframes vPulse{0%{transform:scale(.9);opacity:1;}100%{transform:scale(1.35);opacity:0;}}
+.voice-wrap.open .voice-fab{display:none;}
+.voice-dock{display:none;width:100%;background:#fff;border:1px solid var(--sborder);border-radius:16px;box-shadow:0 12px 36px rgba(0,0,0,.14);padding:14px;margin-bottom:4px;font-family:var(--fui);max-height:calc(100vh - 130px);overflow-y:auto;}
+.voice-wrap.open .voice-dock{display:block;animation:slideUp .2s ease;}
+.vd-head{display:flex;align-items:center;gap:10px;}
+.vd-mic{width:44px;height:44px;cursor:pointer;transition:transform .15s;}
+.vd-mic svg{width:19px;height:19px;}
+.vd-mic:hover{transform:scale(1.05);}
+.vd-mic.listening{background:linear-gradient(135deg,#D00416,#FB3748);}
+.vd-mic.listening::after{content:'';position:absolute;inset:-5px;border-radius:50%;border:2px solid rgba(208,4,22,.4);animation:vPulse 1.1s ease-out infinite;}
+.vd-status{flex:1;min-width:0;}
+.vd-status-main{font-size:13px;font-weight:600;color:var(--st1);}
+.vd-status-sub{font-size:11.5px;color:var(--st3);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.vd-quota{font-size:10px;font-weight:700;padding:4px 9px;border-radius:var(--rp);background:var(--pro-bg);color:#8A5A00;border:1px solid #F1D38A;font-family:var(--fdis);white-space:nowrap;cursor:pointer;}
+.vd-quota.used{background:var(--pro-grad);color:#fff;border-color:#E5A300;}
+.vd-icon-btn{width:28px;height:28px;border-radius:50%;border:none;background:var(--canvas);color:var(--st2);cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.vd-icon-btn:hover{background:var(--sborder);}
+.vd-icon-btn.off{opacity:.45;text-decoration:line-through;}
+.vd-wave{display:none;align-items:center;gap:3px;height:18px;margin-top:4px;}
+.vd-mic.listening ~ .vd-status .vd-wave{display:flex;}
+.vd-mic.listening ~ .vd-status .vd-status-sub{display:none;}
+.vd-wave i{width:3px;border-radius:2px;background:var(--bad);animation:vWave .8s ease-in-out infinite;}
+.vd-wave i:nth-child(2){animation-delay:.1s;}.vd-wave i:nth-child(3){animation-delay:.2s;}.vd-wave i:nth-child(4){animation-delay:.3s;}.vd-wave i:nth-child(5){animation-delay:.4s;}.vd-wave i:nth-child(6){animation-delay:.5s;}
+@keyframes vWave{0%,100%{height:4px;}50%{height:18px;}}
+.vd-log{margin-top:12px;display:none;}
+.vd-log.on{display:block;}
+.vd-heard{font-size:12px;color:var(--st2);font-style:italic;margin-bottom:6px;}
+.vd-reply{font-size:13px;color:var(--st1);line-height:1.45;}
+.vd-reply b{font-weight:600;}
+.vd-card{margin-top:10px;border:1px solid var(--sborder);border-radius:var(--r);padding:11px 12px;font-size:12px;line-height:1.5;}
+.vd-card.win{background:var(--okbg);border-color:#BFE3C1;}
+.vd-card.pro{background:var(--pro-bg);border-color:#F1D38A;}
+.vd-card-lbl{font-size:9.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;font-family:var(--fdis);color:var(--st3);margin-bottom:4px;}
+.vd-before{color:var(--st3);text-decoration:line-through;margin-bottom:6px;}
+.vd-after{color:var(--st1);}
+.vd-after .vd-blur{filter:blur(4px);user-select:none;}
+.vd-card-row{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:9px;}
+.vd-score{font-weight:700;color:#2E7D32;font-size:12.5px;}
+.vd-link{border:none;background:none;color:var(--accent);font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fui);padding:0;}
+.vd-pro-cta{border:none;border-radius:var(--rs);background:var(--pro-grad);color:#fff;font-weight:700;font-size:12px;padding:8px 14px;cursor:pointer;font-family:var(--fui);box-shadow:0 2px 6px rgba(229,163,0,.35);white-space:nowrap;}
+.vd-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:12px;}
+.vd-chip{border:1px solid var(--sborder);background:#fff;color:var(--st2);border-radius:var(--rp);font-size:11.5px;padding:5px 10px;cursor:pointer;font-family:var(--fui);transition:all .15s;}
+.vd-chip:hover{border-color:var(--accent);color:var(--accent);background:var(--acbg);}
+.vd-chip.pro{border-color:#F1D38A;background:var(--pro-bg);color:#8A5A00;}
+.vd-chip.pro:hover{border-color:#E5A300;background:#FFE8B8;color:#6B4500;}
+.vd-type{display:flex;gap:6px;margin-top:10px;}
+.vd-type input{flex:1;height:34px;border:1px solid var(--sborder);border-radius:var(--rs);padding:0 10px;font-size:12.5px;font-family:var(--fui);color:var(--st1);background:var(--canvas);}
+.vd-type input:focus{outline:2px solid var(--accent);outline-offset:1px;background:#fff;}
+.vd-type button{height:34px;padding:0 12px;border:none;border-radius:var(--rs);background:var(--accent);color:#fff;font-size:12px;font-weight:600;cursor:pointer;font-family:var(--fui);}
+.voice-flash{animation:vFlash 2.4s ease-out;border-radius:4px;}
+@keyframes vFlash{0%{background:#C8F0CB;box-shadow:0 0 0 4px #C8F0CB;}100%{background:transparent;box-shadow:0 0 0 4px transparent;}}
+
+/* ── v2: honest issues, diffs, passes, start screen, interview ── */
+.sec-mistakes{background:#FFF1D6;color:#8A5A00;border:1px solid #F1D38A;animation:none;}
+.sec-mistakes:hover{box-shadow:0 2px 6px rgba(229,163,0,.35);}
+.inline-paywall-head{color:var(--accent);}
+.ipd{background:var(--accent);}
+.inline-paywall-msg b{color:var(--st1);}
+.inline-paywall-cta{background:var(--accent);font-size:13px;padding:10px;}
+.inline-paywall-cta:hover{background:#3B6CF0;box-shadow:0 4px 10px rgba(69,126,255,.3);}
+.coach-list{text-align:left;font-size:12px;color:var(--st2);line-height:1.5;margin:0 0 12px;padding:0;list-style:none;}
+.coach-list li{padding:5px 0;border-top:1px solid var(--sborder);}
+.coach-list li b{color:var(--st1);font-weight:600;}
+.diff-del{color:#9B1C1C;background:#FDE4E4;text-decoration:line-through;border-radius:2px;padding:1px 2px;}
+.diff-ins{color:#14532D;background:#D9F5DC;border-radius:2px;padding:1px 2px;}
+.diff-bar{display:flex;gap:6px;align-items:center;margin:6px 0 8px;font-family:var(--fui);}
+.diff-bar span{font-size:11px;color:var(--st3);margin-right:auto;}
+.diff-btn{border:none;border-radius:var(--rs);font-size:11.5px;font-weight:600;padding:5px 12px;cursor:pointer;font-family:var(--fui);}
+.diff-accept{background:var(--ok);color:#fff;}
+.diff-reject{background:var(--canvas);color:var(--st2);border:1px solid var(--sborder);}
+.score-pill .si-pct{cursor:pointer;}
+.subnav-free{font-size:8px;font-weight:800;padding:2px 5px;background:var(--okbg);color:#2E7D32;border-radius:var(--rp);letter-spacing:.06em;font-family:var(--fdis);line-height:1;}
+.lever{display:flex;gap:10px;align-items:flex-start;padding:10px 0;border-top:1px solid var(--pborder);}
+.lever:first-of-type{border-top:none;}
+.lever-pts{flex-shrink:0;min-width:34px;text-align:center;font-size:11px;font-weight:700;border-radius:var(--rp);padding:3px 0;background:#FFF1D6;color:#8A5A00;font-family:var(--fdis);}
+.lever.done .lever-pts{background:var(--okbg);color:#2E7D32;}
+.lever-body{flex:1;min-width:0;}
+.lever-kind{font-size:12.5px;font-weight:600;color:var(--t1);}
+.lever-why{font-size:11.5px;color:var(--t2);line-height:1.45;margin-top:2px;}
+.lever-fix{border:1px solid var(--accent);background:#fff;color:var(--accent);border-radius:var(--rs);font-size:11px;font-weight:600;padding:4px 10px;cursor:pointer;font-family:var(--fui);margin-top:6px;}
+.lever-fix:hover{background:var(--acbg);}
+.rp-card{border:1px solid var(--pborder);border-radius:var(--r);padding:14px;margin-bottom:12px;background:#fff;}
+.rp-card-title{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:2px;}
+.rp-card-sub{font-size:11.5px;color:var(--t2);line-height:1.45;margin-bottom:8px;}
+.rp-btn{width:100%;border:none;border-radius:var(--rs);background:var(--accent);color:#fff;font-size:12.5px;font-weight:600;padding:10px;cursor:pointer;font-family:var(--fui);margin-top:8px;}
+.rp-btn.gold{background:var(--pro-grad);box-shadow:0 2px 6px rgba(229,163,0,.3);}
+.rp-btn.ghost{background:#fff;color:var(--accent);border:1px solid var(--accent);}
+.rp-link{border:none;background:none;color:var(--accent);font-size:11.5px;font-weight:600;cursor:pointer;font-family:var(--fui);padding:0;}
+.pass-opt{display:flex;align-items:center;gap:10px;border:1.5px solid var(--sborder);border-radius:var(--r);padding:11px 12px;margin-bottom:8px;cursor:pointer;text-align:left;background:#fff;width:100%;font-family:var(--fui);}
+.pass-opt.on{border-color:var(--accent);background:var(--acbg);}
+.pass-opt-main{flex:1;}
+.pass-opt-name{font-size:13px;font-weight:700;color:var(--st1);}
+.pass-opt-desc{font-size:11px;color:var(--st2);margin-top:2px;}
+.pass-opt-price{font-size:15px;font-weight:800;color:var(--st1);font-family:var(--fdis);}
+.pass-tag{font-size:8.5px;font-weight:800;letter-spacing:.05em;padding:2px 6px;border-radius:var(--rp);background:var(--okbg);color:#2E7D32;margin-left:6px;font-family:var(--fdis);vertical-align:middle;}
+.pro-preview-chip{display:none;align-items:center;gap:8px;margin:0 auto 10px;padding:6px 12px;border-radius:var(--rp);background:var(--pro-bg);border:1px solid #F1D38A;color:#8A5A00;font-size:11.5px;font-weight:600;font-family:var(--fui);}
+.pro-preview-chip.on{display:inline-flex;}
+.start-overlay{position:fixed;inset:0;background:rgba(245,245,247,.96);z-index:500;display:flex;align-items:center;justify-content:center;padding:20px;overflow-y:auto;}
+.start-overlay.hidden{display:none;}
+.start-card{background:#fff;border:1px solid var(--sborder);border-radius:16px;box-shadow:0 12px 36px rgba(0,0,0,.1);padding:28px;max-width:520px;width:100%;font-family:var(--fui);}
+.start-title{font-family:var(--fdis);font-size:24px;font-weight:700;color:var(--st1);letter-spacing:-.01em;}
+.start-sub{font-size:13.5px;color:var(--st2);margin:6px 0 18px;line-height:1.5;}
+.start-opt{display:flex;align-items:center;gap:12px;width:100%;text-align:left;border:1.5px solid var(--sborder);border-radius:var(--r);padding:13px 14px;margin-bottom:9px;background:#fff;cursor:pointer;font-family:var(--fui);transition:all .15s;}
+.start-opt:hover{border-color:var(--accent);background:var(--acbg);}
+.start-opt.primary{border-color:var(--accent);}
+.start-ico{width:38px;height:38px;border-radius:10px;background:var(--acbg);color:var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0;}
+.start-opt-name{font-size:14px;font-weight:600;color:var(--st1);}
+.start-opt-desc{font-size:12px;color:var(--st2);margin-top:2px;}
+.start-privacy{font-size:11.5px;color:var(--st3);margin-top:12px;line-height:1.5;display:flex;gap:6px;}
+.start-progress{display:none;margin-top:6px;}
+.start-progress.on{display:block;}
+.start-step{font-size:13px;color:var(--st3);padding:6px 0;display:flex;gap:8px;align-items:center;}
+.start-step.done{color:var(--st1);}
+.start-step.done::before{content:'✓';color:var(--ok);font-weight:700;}
+.start-step:not(.done)::before{content:'•';}
+.vd-tabs{display:flex;gap:6px;margin-top:12px;background:var(--canvas);border-radius:var(--rs);padding:3px;}
+.vd-tab{flex:1;border:none;background:none;border-radius:6px;font-size:12px;font-weight:600;color:var(--st2);padding:7px 4px;cursor:pointer;font-family:var(--fui);}
+.vd-tab.on{background:#fff;color:var(--accent);box-shadow:var(--sh);}
+.vd-lang{display:flex;border:1px solid var(--sborder);border-radius:var(--rp);overflow:hidden;flex-shrink:0;}
+.vd-lang button{border:none;background:#fff;font-size:11px;font-weight:600;color:var(--st2);padding:5px 9px;cursor:pointer;font-family:var(--fui);}
+.vd-lang button.on{background:var(--accent);color:#fff;}
+.vd-panel{display:none;}
+.vd-panel.on{display:block;}
+.iv-dots{display:flex;gap:5px;margin:12px 0 8px;}
+.iv-dots i{flex:1;height:4px;border-radius:2px;background:var(--sborder);}
+.iv-dots i.on{background:var(--accent);}
+.iv-q{font-size:15px;font-weight:600;color:var(--st1);line-height:1.4;}
+.iv-hint{font-size:11.5px;color:var(--st3);margin-top:4px;}
+.iv-answers{margin-top:8px;font-size:12px;color:var(--st2);font-style:italic;line-height:1.5;}
+.iv-draft{margin-top:10px;border:1px solid #BFE3C1;background:var(--okbg);border-radius:var(--r);padding:12px;}
+.iv-draft-role{font-size:13px;font-weight:700;color:var(--st1);}
+.iv-draft-co{font-size:12px;color:var(--st2);margin-bottom:6px;}
+.iv-draft ul{margin:0;padding-left:18px;font-size:12.5px;line-height:1.5;color:var(--st1);}
+.iv-note{font-size:11px;color:var(--st3);margin-top:8px;line-height:1.45;}
+.vd-privacy{font-size:10.5px;color:var(--st3);margin-top:8px;text-align:center;}
+</style>
+</head>
+<body>
+
+<!-- TOP BAR -->
+<div class="topbar">
+  <span class="logo">naukri<span class="logo-dot">.</span><span class="logo-mark">Resume</span></span>
+  <div class="versions">
+    <button class="vtab on" onclick="switchVer(this,'Base resume')">Base</button>
+    <button class="vtab" onclick="switchVer(this,'Sample Product CVs')">Sample Product CVs</button>
+  </div>
+  <div class="topbar-actions">
+    <button class="tbtn tbtn-ghost" onclick="openPreview()">Preview PDF</button>
+    <button class="tbtn tbtn-accent" onclick="showToast('Sharing link copied!')">Share Link</button>
+    <div class="download-wrap">
+      <button class="tbtn tbtn-ok" id="downloadBtn" onclick="toggleDownloadPopover(event)">⬇ Download</button>
+      <div class="download-popover" id="downloadPopover" onclick="event.stopPropagation()">
+        <div class="dlp-title">Download PDF</div>
+        <div class="dlp-toggle-row">
+          <div class="dlp-toggle-info">
+            <div class="dlp-toggle-name">With brand</div>
+            <div class="dlp-toggle-desc">Small "Built with Naukri Resume" footer</div>
+          </div>
+          <label class="toggle">
+            <input type="checkbox" id="brandToggle" checked onchange="onBrandToggle(this)">
+            <div class="toggle-track"></div>
+            <div class="toggle-knob"></div>
+          </label>
+        </div>
+        <div class="dlp-pro-hint" id="dlpProHint" style="display:none;">Clean, footer-free PDF comes with any pass</div>
+        <button class="dlp-action free" id="dlpAction" onclick="onDownloadConfirm()">Download PDF</button>
+        <button class="rp-btn ghost" style="margin-top:6px;" onclick="onDownloadDocx()">Download Word (.docx) · Pass</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="main">
+
+<!-- LEFT PANEL -->
+<div class="lp hidden" id="lpPanel">
+  <div class="lsec" data-section="sections">
+    <div class="lsec-lbl">Sections</div>
+    <button class="sec-item on" onclick="selectSec(this,'summary')"><div class="sec-dot" style="background:#4CAF50;"></div><span class="sec-name">Summary</span><span class="sec-mistakes" onclick="event.stopPropagation();showMistakes('Summary',2)">2</span><span class="sec-score" style="color:#4CAF50;">92</span></button>
+    <button class="sec-item" onclick="selectSec(this,'experience')"><div class="sec-dot" style="background:#DFB400;"></div><span class="sec-name">Experience</span><span class="sec-mistakes" onclick="event.stopPropagation();showMistakes('Experience',2)">2</span><span class="sec-score" style="color:#DFB400;">74</span></button>
+    <button class="sec-item" onclick="selectSec(this,'skills')"><div class="sec-dot" style="background:#457EFF;"></div><span class="sec-name">Skills</span><span class="sec-score" style="color:#457EFF;">88</span></button>
+    <button class="sec-item" onclick="selectSec(this,'education')"><div class="sec-dot" style="background:#4CAF50;"></div><span class="sec-name">Education</span><span class="sec-score" style="color:#4CAF50;">100</span></button>
+    <button class="sec-item" onclick="selectSec(this,'projects')"><div class="sec-dot" style="background:#9333EA;"></div><span class="sec-name">Projects</span><span class="sec-mistakes" onclick="event.stopPropagation();showMistakes('Projects',1)">1</span><span class="sec-score" style="color:#9333EA;">61</span></button>
+    <button class="sec-item" onclick="selectSec(this,'contact')"><div class="sec-dot" style="background:#4CAF50;"></div><span class="sec-name">Contact</span><span class="sec-score" style="color:#4CAF50;">100</span></button>
+  </div>
+  <div class="lp-div"></div>
+  <div class="lsec" data-section="format">
+    <div class="lsec-lbl">Format</div>
+    <div class="fmt-row">
+      <label class="fmt-label">Section spacing<span class="fmt-value-sep">·</span><span class="fmt-value" id="spacingValue">Medium</span></label>
+      <div class="fmt-stepper" data-fmt="spacing">
+        <button class="fmt-step-btn" onclick="stepFmt('spacing',-1)" aria-label="Decrease">
+          <svg viewBox="0 0 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="9" y2="6"/></svg>
+        </button>
+        <div class="fmt-track" id="trackSpacing" onclick="trackClick(event,'spacing')" style="--step:2;">
+          <div class="fmt-track-fill"></div>
+          <div class="fmt-tick" style="left:0%;"></div>
+          <div class="fmt-tick" style="left:25%;"></div>
+          <div class="fmt-tick" style="left:50%;"></div>
+          <div class="fmt-tick" style="left:75%;"></div>
+          <div class="fmt-tick" style="left:100%;"></div>
+          <div class="fmt-thumb"></div>
+        </div>
+        <button class="fmt-step-btn" onclick="stepFmt('spacing',+1)" aria-label="Increase">
+          <svg viewBox="0 0 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="9" y2="6"/><line x1="6" y1="3" x2="6" y2="9"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="fmt-row">
+      <label class="fmt-label">Line height<span class="fmt-value-sep">·</span><span class="fmt-value" id="lineheightValue">Medium</span></label>
+      <div class="fmt-stepper" data-fmt="lineheight">
+        <button class="fmt-step-btn" onclick="stepFmt('lineheight',-1)" aria-label="Decrease">
+          <svg viewBox="0 0 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="9" y2="6"/></svg>
+        </button>
+        <div class="fmt-track" id="trackLineheight" onclick="trackClick(event,'lineheight')" style="--step:2;">
+          <div class="fmt-track-fill"></div>
+          <div class="fmt-tick" style="left:0%;"></div>
+          <div class="fmt-tick" style="left:25%;"></div>
+          <div class="fmt-tick" style="left:50%;"></div>
+          <div class="fmt-tick" style="left:75%;"></div>
+          <div class="fmt-tick" style="left:100%;"></div>
+          <div class="fmt-thumb"></div>
+        </div>
+        <button class="fmt-step-btn" onclick="stepFmt('lineheight',+1)" aria-label="Increase">
+          <svg viewBox="0 0 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="9" y2="6"/><line x1="6" y1="3" x2="6" y2="9"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="fmt-row">
+      <label class="fmt-label">Font size<span class="fmt-value-sep">·</span><span class="fmt-value" id="fontsizeValue">Medium</span></label>
+      <div class="fmt-stepper" data-fmt="fontsize">
+        <button class="fmt-step-btn" onclick="stepFmt('fontsize',-1)" aria-label="Decrease">
+          <svg viewBox="0 0 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="9" y2="6"/></svg>
+        </button>
+        <div class="fmt-track" id="trackFontsize" onclick="trackClick(event,'fontsize')" style="--step:2;">
+          <div class="fmt-track-fill"></div>
+          <div class="fmt-tick" style="left:0%;"></div>
+          <div class="fmt-tick" style="left:25%;"></div>
+          <div class="fmt-tick" style="left:50%;"></div>
+          <div class="fmt-tick" style="left:75%;"></div>
+          <div class="fmt-tick" style="left:100%;"></div>
+          <div class="fmt-thumb"></div>
+        </div>
+        <button class="fmt-step-btn" onclick="stepFmt('fontsize',+1)" aria-label="Increase">
+          <svg viewBox="0 0 12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="3" y1="6" x2="9" y2="6"/><line x1="6" y1="3" x2="6" y2="9"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="fmt-row">
+      <label class="fmt-label">Fonts<span class="fmt-value-sep">·</span><span class="fmt-value" id="fontValue">Inter</span></label>
+      <div class="fmt-dropdown">
+        <select class="fmt-select" onchange="setFont(this)">
+          <option selected data-family="'Inter',system-ui,sans-serif">Inter</option>
+          <option data-family="'Satoshi','Inter',system-ui,sans-serif">Satoshi</option>
+        </select>
+      </div>
+    </div>
+    <div class="fmt-row">
+      <label class="fmt-label">Theme<span class="fmt-value-sep">·</span><span class="fmt-value" id="themeValue">Blue</span></label>
+      <div class="theme-circles" data-fmt="theme">
+        <button class="theme-c on" style="background:#457EFF;" onclick="setTheme('#457EFF','Blue',this)" title="Naukri Blue"></button>
+        <button class="theme-c" style="background:#E5A300;" onclick="setTheme('#E5A300','Pro',this)" title="Pro Amber"></button>
+        <button class="theme-c" style="background:#4CAF50;" onclick="setTheme('#4CAF50','Green',this)" title="Success Green"></button>
+        <button class="theme-c" style="background:#475569;" onclick="setTheme('#475569','Slate',this)" title="Slate"></button>
+        <button class="theme-c" style="background:#1A1A1A;" onclick="setTheme('#1A1A1A','Charcoal',this)" title="Charcoal"></button>
+      </div>
+    </div>
+  </div>
+  <div class="lp-div"></div>
+  <div class="lsec" data-section="template">
+    <div class="lsec-lbl">Template</div>
+    <div class="tpl-filter">
+      <button class="tpl-filter-btn on" onclick="filterTpl('all',this)">All</button>
+      <button class="tpl-filter-btn" onclick="filterTpl('free',this)">Free</button>
+      <button class="tpl-filter-btn pro-tab" onclick="filterTpl('pro',this)">Pro</button>
+    </div>
+    <div class="tpl-grid">
+      <!-- Classic — Free, default selected -->
+      <div class="tpl-card on" data-tier="free" onclick="pickTemplate('classic',this)" tabindex="0">
+        <div class="tpl-tier free">Free</div>
+        <div class="tpl-preview"><div class="tpl-prev tpl-prev-classic">
+          <div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div>
+          <div class="pp-body">
+            <div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line"></div><div class="pp-line short"></div></div>
+            <div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div>
+          </div>
+        </div></div>
+        <div class="tpl-name">Classic</div>
+        <div class="tpl-check">✓</div>
+      </div>
+      <!-- Modern — Pro -->
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('modern',this)" tabindex="0">
+        <div class="tpl-tier pro">Pro</div>
+        <div class="tpl-preview"><div class="tpl-prev tpl-prev-modern">
+          <div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div>
+          <div class="pp-body">
+            <div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line"></div><div class="pp-line short"></div></div>
+            <div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div>
+          </div>
+        </div></div>
+        <div class="tpl-name">Modern</div>
+        <div class="tpl-check">✓</div>
+      </div>
+      <!-- Minimal — Free -->
+      <div class="tpl-card" data-tier="free" onclick="pickTemplate('minimal',this)" tabindex="0">
+        <div class="tpl-tier free">Free</div>
+        <div class="tpl-preview"><div class="tpl-prev tpl-prev-minimal">
+          <div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div>
+          <div class="pp-body">
+            <div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line"></div><div class="pp-line short"></div></div>
+            <div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div>
+          </div>
+        </div></div>
+        <div class="tpl-name">Minimal</div>
+        <div class="tpl-check">✓</div>
+      </div>
+      <!-- Bold — Pro -->
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('bold',this)" tabindex="0">
+        <div class="tpl-tier pro">Pro</div>
+        <div class="tpl-preview"><div class="tpl-prev tpl-prev-bold">
+          <div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div>
+          <div class="pp-body">
+            <div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line"></div><div class="pp-line short"></div></div>
+            <div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div>
+          </div>
+        </div></div>
+        <div class="tpl-name">Bold</div>
+        <div class="tpl-check">✓</div>
+      </div>
+      <!-- Pro templates ─────────────────────────────────────── -->
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('exec',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#0F172A;--c-name:#fff;--c-title:rgba(255,255,255,.5);--c-accent:#0F172A;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Executive</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('creative',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#FFEFE5;--c-name:#9A3412;--c-title:#C2410C;--c-accent:#DFB400;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Creative</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('designer',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#FCE7F3;--c-name:#831843;--c-title:#BE185D;--c-accent:#BE185D;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Designer</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('aurora',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:linear-gradient(135deg,#7C3AED,#3B82F6);--c-name:#fff;--c-title:rgba(255,255,255,.6);--c-accent:#7C3AED;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Aurora</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('forest',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#14532D;--c-name:#fff;--c-title:rgba(255,255,255,.6);--c-accent:#15803D;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Forest</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('coastal',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#155E75;--c-name:#fff;--c-title:rgba(255,255,255,.6);--c-accent:#0E7490;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Coastal</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('linen',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#FEF3C7;--c-name:#78350F;--c-title:#A16207;--c-accent:#A16207;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Linen</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('gold',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#1F2937;--c-name:#FBBF24;--c-title:rgba(251,191,36,.6);--c-accent:#FBBF24;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Gold</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('nordic',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#DBEAFE;--c-name:#1E3A8A;--c-title:#3B82F6;--c-accent:#1E40AF;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Nordic</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('crimson',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#7F1D1D;--c-name:#fff;--c-title:rgba(255,255,255,.6);--c-accent:#B91C1C;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Crimson</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('slate',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#1F2937;--c-name:#fff;--c-title:rgba(255,255,255,.5);--c-accent:#475569;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Slate</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('sunset',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:linear-gradient(135deg,#F472B6,#FB923C);--c-name:#fff;--c-title:rgba(255,255,255,.7);--c-accent:#EC4899;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Sunset</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('indigo',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#312E81;--c-name:#fff;--c-title:rgba(255,255,255,.6);--c-accent:#4338CA;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Indigo</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('mint',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#D1FAE5;--c-name:#064E3B;--c-title:#047857;--c-accent:#10B981;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Mint</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('charcoal',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:#1E293B;--c-name:#fff;--c-title:rgba(255,255,255,.6);--c-accent:#334155;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Charcoal</div><div class="tpl-check">✓</div></div>
+      <div class="tpl-card" data-tier="pro" onclick="pickTemplate('twilight',this)" tabindex="0"><div class="tpl-tier pro">Pro</div><div class="tpl-preview"><div class="tpl-prev tpl-prev-custom" style="--c-head:linear-gradient(135deg,#3730A3,#1E40AF);--c-name:#fff;--c-title:rgba(255,255,255,.6);--c-accent:#3730A3;"><div class="pp-head"><div class="pp-name"></div><div class="pp-title"></div></div><div class="pp-body"><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div><div class="pp-line short"></div></div><div class="pp-section"><div class="pp-st"></div><div class="pp-line"></div></div></div></div></div><div class="tpl-name">Twilight</div><div class="tpl-check">✓</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- RESUME CANVAS -->
+<div class="canvas">
+  <div class="editor-toolbar">
+    <button class="subnav-btn" id="navSections" onclick="toggleLP('sections',this)">Sections</button>
+    <div class="score-pill" id="scorePill" onclick="showScoreTab()">
+      <div class="ats-logo" aria-label="ATS">ATS</div>
+      <div class="score-info">
+        <div class="si-n"><span id="scoreMain">84</span><span class="si-pct" id="scorePct">/100 · see why</span></div>
+      </div>
+    </div>
+    <button class="subnav-btn" id="navTemplates" onclick="toggleLP('template',this)">Templates</button>
+    <button class="subnav-btn" id="navFormat" onclick="toggleLP('format',this)">Format</button>
+    <button class="subnav-btn" id="navSuggestions" onclick="toggleRP('suggestions',this)">AI Suggestions <span class="subnav-free" id="navFreePill">3 FREE</span></button>
+    <button class="subnav-btn subnav-btn-pro" id="navTailor" onclick="toggleRP('jd',this)">Tailor for Job <span class="pro-pill-mini">PRO</span></button>
+  </div>
+  <div class="pro-preview-chip" id="proChip"></div>
+  <div class="resume-wrap">
+    <div class="resume t-classic" id="resume">
+
+      <!-- HEAD -->
+      <div class="r-head">
+        <div class="r-name" contenteditable="true">Arjun Mehta</div>
+        <div class="r-title" contenteditable="true">Senior Product Manager · Fintech & Consumer Growth</div>
+        <div class="r-contact">
+          <span class="r-ci" contenteditable="true">arjun@gmail.com</span>
+          <span class="r-ci" contenteditable="true">+91 98765 43210</span>
+          <span class="r-ci" contenteditable="true">linkedin.com/in/arjunmehta</span>
+          <span class="r-ci" contenteditable="true">Bengaluru, India</span>
+        </div>
+      </div>
+
+      <!-- BODY -->
+      <div class="r-body">
+        <div class="r-main">
+
+          <!-- SUMMARY -->
+          <div style="position:relative;">
+            <div class="r-sec-title">Summary</div>
+            <div class="r-summary-text" contenteditable="true" data-issue="sum"><span class="bullet-flag-warn">Product leader</span> with 7 years building and scaling fintech products across payments, consumer subscriptions, and SMB platforms. Launched Razorpay's first consumer product (0→100K users, 8 months), recovered ₹74Cr GMV through a payment retry layer, and cut SMB onboarding from 14 days to 2. <span class="bullet-flag-err">Known for diagnosing root causes before prescribing solutions.</span></div>
+
+            <!-- Inline coach: Summary -->
+            <div class="inline-paywall" data-coach="Summary"></div>
+          </div>
+
+          <!-- EXPERIENCE -->
+          <div style="margin-top:22px;">
+            <div class="r-sec-title">Experience</div>
+
+            <div class="r-job" style="position:relative;">
+              <div class="r-job-title">Senior Product Manager, Core Payments</div>
+              <div class="r-job-co">Razorpay</div>
+              <div class="r-job-date">2022 – 2024</div>
+              <ul class="r-bullets">
+                <li class="bullet-wrap">
+                  <span class="r-bullet" contenteditable="true">Built real-time failure taxonomy across 14 bank integrations; discovered 60% of UPI failures were retry-eligible within 3 seconds — a window never previously modelled</span>
+                  <div class="bl-actions">
+                    <button class="bl-btn bl-ai" onclick="boostBullet(this)" title="AI Boost (Pro)">✦ AI</button>
+                    <button class="bl-btn bl-rm" onclick="removeBullet(this)">✕</button>
+                  </div>
+                </li>
+                <li class="bullet-wrap">
+                  <span class="r-bullet bullet-flag-warn" contenteditable="true" data-issue="order">Shipped silent retry orchestration layer with 2 engineers in 6 weeks — raised UPI success rate 84%→90.2%, recovering ₹74Cr in monthly GMV</span>
+                  <div class="bl-actions">
+                    <button class="bl-btn bl-ai" onclick="boostBullet(this)" title="AI Boost (Pro)">✦ AI</button>
+                    <button class="bl-btn bl-rm" onclick="removeBullet(this)">✕</button>
+                  </div>
+                </li>
+                <li class="bullet-wrap">
+                  <span class="r-bullet bullet-flag-err" contenteditable="true" data-issue="passive">Was responsible for managing relationships with bank partners and reporting outcomes to leadership</span>
+                  <div class="bl-actions">
+                    <button class="bl-btn bl-ai" onclick="boostBullet(this)" title="AI Boost (Pro)">✦ AI</button>
+                    <button class="bl-btn bl-rm" onclick="removeBullet(this)">✕</button>
+                  </div>
+                </li>
+              </ul>
+
+              <!-- Inline coach (Enhancv-style) -->
+              <div class="inline-paywall" data-coach="Experience"></div>
+            </div>
+
+            <div class="r-job">
+              <div class="r-job-title">Product Manager, Consumer</div>
+              <div class="r-job-co">Razorpay</div>
+              <div class="r-job-date">2020 – 2022</div>
+              <ul class="r-bullets">
+                <li class="bullet-wrap">
+                  <span class="r-bullet" contenteditable="true">Launched RazorpayX Personal — the company's first consumer product — with 1 designer and 3 engineers; reached 100K users in 8 months via zero paid acquisition</span>
+                  <div class="bl-actions">
+                    <button class="bl-btn bl-ai" onclick="boostBullet(this)" title="AI Boost (Pro)">✦ AI</button>
+                    <button class="bl-btn bl-rm" onclick="removeBullet(this)">✕</button>
+                  </div>
+                </li>
+                <li class="bullet-wrap">
+                  <span class="r-bullet" contenteditable="true">Ran 40 user interviews; built consumer design system from scratch; achieved D30 retention 61%, NPS 54</span>
+                  <div class="bl-actions">
+                    <button class="bl-btn bl-ai" onclick="boostBullet(this)" title="AI Boost (Pro)">✦ AI</button>
+                    <button class="bl-btn bl-rm" onclick="removeBullet(this)">✕</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+
+            <div class="r-job">
+              <div class="r-job-title">Product Manager, SMB Platform</div>
+              <div class="r-job-co">Khatabook</div>
+              <div class="r-job-date">2018 – 2020</div>
+              <ul class="r-bullets">
+                <li class="bullet-wrap">
+                  <span class="r-bullet" contenteditable="true">Mapped 6 broken handoffs across merchant activation funnel; drove KYC API integration and self-serve doc upload — cut onboarding from 14 days to 2</span>
+                  <div class="bl-actions">
+                    <button class="bl-btn bl-ai" onclick="boostBullet(this)" title="AI Boost (Pro)">✦ AI</button>
+                    <button class="bl-btn bl-rm" onclick="removeBullet(this)">✕</button>
+                  </div>
+                </li>
+                <li class="bullet-wrap">
+                  <span class="r-bullet" contenteditable="true">Shipped activation redesign in 10 weeks with 1 engineer; reduced activation churn 22pts, saved ₹8Cr/year in ops cost</span>
+                  <div class="bl-actions">
+                    <button class="bl-btn bl-ai" onclick="boostBullet(this)" title="AI Boost (Pro)">✦ AI</button>
+                    <button class="bl-btn bl-rm" onclick="removeBullet(this)">✕</button>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <!-- SIDEBAR -->
+        <div class="r-sidebar">
+          <div>
+            <div class="r-sec-title">Skills</div>
+            <div>
+              <div style="font-size:11px;color:var(--t3);font-family:'Inter',system-ui,sans-serif;margin-bottom:6px;">Product</div>
+              <span class="skill-tag" style="background:#EFF4FF;color:#1E3A8A;border:1px solid #BFCFEF;">0→1 Launches</span>
+              <span class="skill-tag" style="background:#EFF4FF;color:#1E3A8A;border:1px solid #BFCFEF;">A/B Testing</span>
+              <span class="skill-tag" style="background:#EFF4FF;color:#1E3A8A;border:1px solid #BFCFEF;">User Research</span>
+              <span class="skill-tag" style="background:#EFF4FF;color:#1E3A8A;border:1px solid #BFCFEF;">Roadmapping</span>
+              <div style="font-size:11px;color:var(--t3);font-family:'Inter',system-ui,sans-serif;margin:10px 0 6px;">Data</div>
+              <span class="skill-tag" style="background:#F0FFF4;color:#166534;border:1px solid #86EFAC;">SQL / Trino</span>
+              <span class="skill-tag" style="background:#F0FFF4;color:#166534;border:1px solid #86EFAC;">Amplitude</span>
+              <span class="skill-tag" style="background:#F0FFF4;color:#166534;border:1px solid #86EFAC;">Mixpanel</span>
+              <span class="skill-tag" style="background:#F0FFF4;color:#166534;border:1px solid #86EFAC;">Looker</span>
+              <div style="font-size:11px;color:var(--t3);font-family:'Inter',system-ui,sans-serif;margin:10px 0 6px;">Domain</div>
+              <span class="skill-tag" style="background:#FFF7ED;color:#9A3412;border:1px solid #F5D676;">UPI / Payments</span>
+              <span class="skill-tag" style="background:#FFF7ED;color:#9A3412;border:1px solid #F5D676;">Subscriptions</span>
+              <span class="skill-tag" style="background:#FFF7ED;color:#9A3412;border:1px solid #F5D676;">SMB Products</span>
+            </div>
+          </div>
+
+          <div style="margin-top:22px;">
+            <div class="r-sec-title">Education</div>
+            <div class="r-job-title" style="font-size:13px;">B.Tech, Computer Science</div>
+            <div class="r-job-co" style="font-size:12px;">IIT Bombay · 2018</div>
+          </div>
+
+          <div style="margin-top:22px;">
+            <div class="r-sec-title">Projects</div>
+            <div class="r-job">
+              <div class="r-job-title" style="font-size:13px;">Rally — Walk-in Hiring Platform</div>
+              <div style="font-size:12px;color:var(--t2);line-height:1.5;font-family:'Inter',system-ui,sans-serif;margin-top:4px;" contenteditable="true" data-issue="proj">Built full MVP prototype for Naukri internal walk-in hiring product. ₹20L pilot budget, ₹2–5Cr ARR projected.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- VOICE EDITOR -->
+  <div class="voice-wrap" id="voiceWrap">
+    <button class="voice-fab" onclick="openVoice('interview')" aria-label="Talk about your work and get resume bullets">
+      <span class="voice-orb"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/></svg></span>
+      Talk about your work, we write it
+      <span class="v-new">हिंदी · EN</span>
+    </button>
+    <div class="voice-dock" role="dialog" aria-label="Voice assistant">
+      <div class="vd-head">
+        <button class="voice-orb vd-mic" id="vdMic" onclick="toggleListen()" aria-label="Start or stop listening"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="2" width="6" height="12" rx="3"/><path d="M5 11a7 7 0 0 0 14 0"/><line x1="12" y1="18" x2="12" y2="22"/></svg></button>
+        <div class="vd-status">
+          <div class="vd-status-main" id="vdStatus">Tap the mic and answer aloud</div>
+          <div class="vd-status-sub" id="vdSub">Hindi, Hinglish or English all work</div>
+          <div class="vd-wave"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+        </div>
+        <div class="vd-lang" role="group" aria-label="Language">
+          <button class="on" onclick="setVoiceLang('en-IN',this)">EN</button>
+          <button onclick="setVoiceLang('hi-IN',this)">हिं</button>
+        </div>
+        <button class="vd-icon-btn off" id="vdMute" onclick="toggleVoiceMute()" title="Spoken replies are off" aria-label="Toggle spoken replies">🔊</button>
+        <button class="vd-icon-btn" onclick="closeVoice()" aria-label="Close">✕</button>
+      </div>
+      <div class="vd-tabs">
+        <button class="vd-tab on" data-mode="interview" onclick="setVoiceMode('interview')">Tell me about your work</button>
+        <button class="vd-tab" data-mode="edit" onclick="setVoiceMode('edit')">Quick edits</button>
+      </div>
+      <div class="vd-panel on" id="vdInterview"></div>
+      <div class="vd-panel" id="vdEdit">
+        <div class="vd-log" id="vdLog">
+          <div class="vd-heard" id="vdHeard"></div>
+          <div class="vd-reply" id="vdReply"></div>
+          <div id="vdCard"></div>
+        </div>
+        <div class="vd-chips">
+          <button class="vd-chip" onclick="handleVoice('The text is too small')">"The text is too small"</button>
+          <button class="vd-chip" onclick="handleVoice('Make it fit on one page')">"Fit on one page"</button>
+          <button class="vd-chip" onclick="handleVoice('Fix my weak bullets')">"Fix my weak bullets"</button>
+          <button class="vd-chip" onclick="handleVoice('Fix everything')">"Fix everything"</button>
+          <button class="vd-chip" onclick="handleVoice('What is my score')">"What is my score?"</button>
+        </div>
+        <div class="vd-privacy" id="vdQuota" style="margin-top:10px;"></div>
+      </div>
+      <form class="vd-type" onsubmit="event.preventDefault();const i=this.querySelector('input');if(i.value.trim()){voiceInput(i.value.trim());i.value='';}">
+        <input type="text" id="vdType" placeholder="…or type your answer" aria-label="Type instead of speaking">
+        <button type="submit">Send</button>
+      </form>
+      <div class="vd-privacy">🔒 Used only to write your resume. Not shared with recruiters.</div>
+    </div>
+  </div>
+</div>
+
+<!-- RIGHT PANEL -->
+<div class="rp hidden" id="rpPanel">
+  <div class="rp-tabs">
+    <button class="rptab on" onclick="switchRP('suggestions',this)">AI Suggestions</button>
+    <button class="rptab" onclick="switchRP('jd',this)">Tailor for Job <span class="tab-pro">Pro</span></button>
+  </div>
+  <div class="rp-body" id="rp-body"><!-- rendered by JS --></div>
+</div>
+
+</div><!-- /main -->
+
+<!-- PASS SHEET -->
+<div class="overlay" id="paywallModal" onclick="closeModal('paywallModal')">
+  <div class="modal" onclick="event.stopPropagation()" style="position:relative;max-width:400px;padding:24px;">
+    <button class="modal-close" onclick="closeModal('paywallModal')">✕</button>
+    <div class="paywall-title" id="paywallModalTitle" style="font-size:19px;margin-bottom:4px;padding-right:30px;">Unlock everything for this job hunt</div>
+    <div class="paywall-sub" id="paywallModalSub" style="margin-bottom:14px;"></div>
+    <button class="pass-opt on" data-price="99" data-name="7-day Job Hunt Pass" onclick="pickPass(this)">
+      <div class="pass-opt-main"><div class="pass-opt-name">7-day Job Hunt Pass<span class="pass-tag">NO AUTO-DEBIT</span></div><div class="pass-opt-desc">Unlimited AI fixes and tailoring, all templates, clean PDF + Word</div></div>
+      <div class="pass-opt-price">₹99</div>
+    </button>
+    <button class="pass-opt" data-price="249" data-name="30-day Pass" onclick="pickPass(this)">
+      <div class="pass-opt-main"><div class="pass-opt-name">30-day Pass<span class="pass-tag">NO AUTO-DEBIT</span></div><div class="pass-opt-desc">Same as above, for a longer search</div></div>
+      <div class="pass-opt-price">₹249</div>
+    </button>
+    <button class="pass-opt" data-price="499" data-name="Naukri Pro" onclick="pickPass(this)">
+      <div class="pass-opt-main"><div class="pass-opt-name">Naukri Pro · monthly</div><div class="pass-opt-desc">Everything in the pass, renews monthly until you cancel</div></div>
+      <div class="pass-opt-price">₹499</div>
+    </button>
+    <button class="paywall-cta" id="passCta" onclick="buyPass()">Pay ₹99 with UPI</button>
+    <div class="paywall-foot" id="passFoot">One-time payment. Nothing is charged again.</div>
+    <div style="text-align:center;margin-top:10px;"><button class="rp-link" id="passAlt" style="display:none;"></button></div>
+  </div>
+</div>
+
+<!-- START SCREEN -->
+<div class="start-overlay" id="startOverlay">
+  <div class="start-card">
+    <div class="start-title">Your resume, ready in minutes</div>
+    <div class="start-sub" id="startSub">Start from what you already have, or just talk — we will write it for you.</div>
+    <div id="startOpts">
+      <button class="start-opt" id="startResume" style="display:none;" onclick="startWith('resume')"><span class="start-ico">↺</span><span><div class="start-opt-name">Continue my last draft</div><div class="start-opt-desc">Saved on this device</div></span></button>
+      <button class="start-opt primary" onclick="startWith('profile')"><span class="start-ico">⇩</span><span><div class="start-opt-name">Import from my Naukri profile</div><div class="start-opt-desc">One tap. Your experience, skills and education come across.</div></span></button>
+      <button class="start-opt" onclick="document.getElementById('startFile').click()"><span class="start-ico">⬆</span><span><div class="start-opt-name">Upload my old resume</div><div class="start-opt-desc">PDF or Word. We keep your content and fix the layout.</div></span></button>
+      <button class="start-opt" onclick="startWith('talk')"><span class="start-ico">🎙</span><span><div class="start-opt-name">Talk for 2 minutes — Hindi or English</div><div class="start-opt-desc">Answer 3 questions aloud. We turn them into resume bullets.</div></span></button>
+      <button class="start-opt" onclick="startWith('sample')"><span class="start-ico">◇</span><span><div class="start-opt-name">Look around with a sample resume</div><div class="start-opt-desc">No sign-up needed</div></span></button>
+      <input type="file" id="startFile" accept=".pdf,.doc,.docx" style="display:none;" onchange="startWith('upload')">
+    </div>
+    <div class="start-progress" id="startProgress"></div>
+    <div class="start-privacy"><span>🔒</span><span>Private to you. Recruiters and your employer cannot see this resume or your activity here unless you choose to share it.</span></div>
+  </div>
+</div>
+
+<!-- VERSION MODAL -->
+<div class="overlay" id="verModal" onclick="closeModal('verModal')">
+  <div class="modal" onclick="event.stopPropagation()" style="position:relative;max-width:420px;">
+    <button class="modal-close" onclick="closeModal('verModal')">✕</button>
+    <div class="modal-title">Tailor for a job</div>
+    <div class="modal-sub">Paste the job link or title — we create a tailored copy and highlights what to change.</div>
+    <input type="text" class="jd-input" style="min-height:40px;height:40px;" placeholder="e.g., Meesho — Senior PM, Growth · meesho.com/careers/...">
+    <button class="analyze-btn" onclick="createVersion()">Create tailored version →</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── State and issue model ────────────────────────────────
+const STATE = { pass:false, freeFixes:3, freeInterviews:1, proTpl:null, undo:null };
+const BASE_SCORE = 92;
+const ISSUES = [
+  { id:'passive', section:'Experience', pts:3, kind:'Passive phrasing',
+    why:'"Was responsible for" hides what you actually did. Lead with an ownership verb.',
+    trigger:/was responsible for/i,
+    after:'Owned relationships with 14 bank partners and reported payment-success outcomes directly to leadership' },
+  { id:'sum', section:'Summary', pts:2, kind:'Unproven claim',
+    why:'"Known for diagnosing root causes…" is a claim with no evidence. Open with your domain and let the results speak.',
+    trigger:/known for/i,
+    after:'Fintech product leader with 7 years scaling payments, consumer subscription and SMB platforms. Launched Razorpay\'s first consumer product (0→100K users in 8 months), recovered ₹74Cr GMV through a payment retry layer, and cut SMB onboarding from 14 days to 2.' },
+  { id:'proj', section:'Projects', pts:2, kind:'Vague scope',
+    why:'"Full MVP prototype" is vague. Say what it was for and the constraint you worked within.',
+    trigger:/^Built full MVP prototype for/i,
+    after:'Built the full MVP for Naukri\'s internal walk-in hiring product within a ₹20L pilot budget; ₹2–5Cr ARR projected.' },
+  { id:'order', section:'Experience', pts:1, kind:'Result buried',
+    why:'The outcome (84%→90.2%) comes after the method. Recruiters skim the first few words of each bullet.',
+    trigger:/^Shipped silent retry/i,
+    after:'Raised UPI success rate 84%→90.2%, recovering ₹74Cr in monthly GMV, by shipping a silent retry layer with 2 engineers in 6 weeks' }
+];
+const escHtml = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+const issueEl = i => document.querySelector(`[data-issue="${i.id}"]`);
+const isOpen = i => { const el = issueEl(i); return !!el && (el.dataset.diffing === '1' || i.trigger.test(el.textContent.trim())); };
+const openIssues = () => ISSUES.filter(isOpen);
+const scoreNow = () => BASE_SCORE - openIssues().reduce((s, i) => s + i.pts, 0);
+
+// ── Right Panel Content ──────────────────────────────────
+const JD_KEYWORDS = ['A/B testing','SQL','user research','roadmap','OKR','GTM','segmentation','stakeholder','payments','retention','funnel','Amplitude','Mixpanel','Looker','UPI','subscriptions','onboarding','NPS','pricing','analytics','Python','Java','Spring Boot','microservices','Kafka','AWS','React','Kubernetes','Agile','Jira','Excel','CRM','B2B','lead generation','team management','P&L','forecasting','SEO','Figma','machine learning'];
+const SAMPLE_JD = 'Senior Product Manager, Growth — Meesho\n\nYou will own the growth roadmap for our seller platform. Requirements: strong A/B testing and funnel analytics, SQL, user research, OKR setting, GTM strategy, segmentation, stakeholder management, payments and retention experience, pricing, and hands-on work with Amplitude.';
+
+const RP = {
+  suggestions: () => {
+    const open = openIssues(), score = scoreNow();
+    const canNow = STATE.pass ? open.length : Math.min(open.length, STATE.freeFixes);
+    const lever = i => {
+      const o = isOpen(i);
+      return `<div class="lever ${o ? '' : 'done'}">
+        <div class="lever-pts">${o ? '+' + i.pts : '✓'}</div>
+        <div class="lever-body">
+          <div class="lever-kind">${i.kind} <span style="font-weight:400;color:var(--t3);">· ${i.section}</span></div>
+          <div class="lever-why">${o ? escHtml(i.why) : 'Fixed.'}</div>
+          ${o ? `<button class="lever-fix" onclick="startFix('${i.id}')">Show the fix</button>` : ''}
+        </div></div>`;
+    };
+    return `
+    <div class="rp-card">
+      <div class="rp-card-title">Resume score: ${score}/100</div>
+      <div class="rp-card-sub">Every point is explained below. ${open.length ? `Fixing all ${open.length} takes you to ${BASE_SCORE}.` : 'Nothing left to fix in your wording.'} Seeing the issues is always free.</div>
+      ${ISSUES.map(lever).join('')}
+      ${open.length ? (canNow
+        ? `<button class="rp-btn" onclick="fixAll()">Fix ${canNow} now${STATE.pass ? '' : ' — free'}</button>`
+        : `<button class="rp-btn gold" onclick="showPaywall('Fix the rest in one tap','You have used your 3 free AI fixes. Every issue stays visible, so you can also rewrite it yourself.')">Fix the rest with a pass · ₹99</button>`) : ''}
+      <div style="font-size:11px;color:var(--t3);margin-top:8px;text-align:center;">${STATE.pass ? 'Pass active: unlimited AI fixes' : STATE.freeFixes + ' of 3 free AI fixes left'}</div>
+    </div>
+    <div class="rp-card" style="background:#F0FDF4;border-color:#86EFAC;">
+      <div class="rp-card-title" style="color:#166534;">What is already working</div>
+      <div style="font-size:12px;color:#14532D;line-height:1.6;">Results backed by numbers in most bullets ✓ · Contact details complete ✓ · Skills grouped by type ✓</div>
+    </div>
+    ${STATE.pass ? '' : `<div class="rp-card" style="background:var(--pro-bg);border-color:#F1D38A;">
+      <div class="rp-card-title">Go further with a Job Hunt Pass</div>
+      <div class="rp-card-sub" style="margin-bottom:0;">Unlimited one-tap fixes · 3 alternative rewrites for any bullet · tailor to any job · every template · clean PDF and Word. One-time ₹99 for 7 days, no auto-debit.</div>
+      <button class="rp-btn gold" onclick="showPaywall()">See passes</button>
+    </div>`}`;
+  },
+
+  jd: () => `
+    <div class="rp-card">
+      <div class="rp-card-title">Check your match — free</div>
+      <div class="rp-card-sub">Paste a job description. You see your match and every missing keyword at no cost.</div>
+      <textarea class="jd-input" id="jdInput" placeholder="Paste the full job description here..."></textarea>
+      <button class="rp-btn" onclick="runMatch()">Check match</button>
+      <div style="text-align:center;margin-top:8px;"><button class="rp-link" onclick="document.getElementById('jdInput').value=SAMPLE_JD;runMatch()">Try with a sample job</button></div>
+    </div>
+    <div id="jdResult"></div>`
+};
+
+function runMatch() {
+  const jd = document.getElementById('jdInput').value.toLowerCase();
+  const out = document.getElementById('jdResult');
+  const req = JD_KEYWORDS.filter(k => jd.includes(k.toLowerCase()));
+  if (req.length < 3) {
+    out.innerHTML = `<div class="rp-card"><div class="rp-card-sub" style="margin:0;">Paste a longer job description — I could not find enough skills or requirements in that text.</div></div>`;
+    return;
+  }
+  const resumeText = document.getElementById('resume').textContent.toLowerCase();
+  const found = req.filter(k => resumeText.includes(k.toLowerCase()));
+  const miss = req.filter(k => !found.includes(k));
+  const pct = Math.round(found.length / req.length * 100);
+  const pills = (arr, cls) => arr.map(k => `<span class="kw-pill ${cls}">${escHtml(k)}</span>`).join('');
+  out.innerHTML = `
+    <div class="rp-card">
+      <div class="match-ring-wrap">
+        <div class="match-ring-n" style="color:${pct >= 75 ? '#4CAF50' : '#DFB400'};">${pct}<span style="font-size:18px;color:var(--t3);">%</span></div>
+        <div class="match-ring-lbl">match · ${found.length} of ${req.length} keywords from this job</div>
+      </div>
+      <div class="kw-section"><div class="kw-lbl"><span class="kw-dot" style="background:#4CAF50;"></span>Already in your resume</div><div class="kw-pills">${pills(found, 'kp-found') || '—'}</div></div>
+      ${miss.length ? `<div class="kw-section"><div class="kw-lbl"><span class="kw-dot" style="background:#D00416;"></span>Missing from your resume</div><div class="kw-pills">${pills(miss, 'kp-miss')}</div></div>
+      <div class="rp-card-sub" style="margin:10px 0 0;">Add the ones that are true for you yourself, free. Or let AI work them into your summary and bullets and save a separate copy for this job.</div>
+      <button class="rp-btn gold" onclick="tailorNow()">Tailor my resume for this job${STATE.pass ? '' : ' · Pass'}</button>` : `<div class="rp-card-sub" style="margin:10px 0 0;">You already cover every keyword I found. No tailoring needed.</div>`}
+    </div>`;
+}
+
+function tailorNow() {
+  if (!STATE.pass) return showPaywall('Tailor this resume in one tap', 'AI works the missing keywords into your summary and bullets, and saves a separate copy for this job. Your match check stays free.');
+  const btn = document.createElement('button');
+  btn.className = 'vtab'; btn.textContent = 'Tailored copy';
+  btn.onclick = () => switchVer(btn, 'Tailored copy');
+  document.querySelector('.versions').appendChild(btn);
+  showToast('Tailored copy saved (demo: content unchanged)');
+}
+
+function switchRP(id, el) {
+  document.querySelectorAll('.rptab').forEach(t => t.classList.remove('on'));
+  if (el) el.classList.add('on');
+  const fn = RP[id];
+  document.getElementById('rp-body').innerHTML = typeof fn === 'function' ? fn() : (fn || '');
+}
+switchRP('suggestions', null);
+
+// ── Format controls ──────────────────────────────────────
+const FMT_STEPS = {
+  spacing:    ['Extra small','Small','Medium','Large','Extra large'],
+  lineheight: ['Extra small','Small','Medium','Large','Extra large'],
+  fontsize:   ['Extra small','Small','Medium','Large','Extra large']
+};
+const FMT_CLASS = {
+  spacing:    ['spacing-xs','spacing-sm',null,'spacing-lg','spacing-xl'],
+  lineheight: ['lh-xs','lh-sm',null,'lh-lg','lh-xl'],
+  fontsize:   ['fz-xs','fz-sm',null,'fz-lg','fz-xl']
+};
+const FMT_STATE = { spacing:2, lineheight:2, fontsize:2 };
+const VALUE_ID  = { spacing:'spacingValue', lineheight:'lineheightValue', fontsize:'fontsizeValue' };
+
+function trackId(key) { return 'track' + key.charAt(0).toUpperCase() + key.slice(1); }
+
+function syncStepperUI(key) {
+  const track = document.getElementById(trackId(key));
+  if (track) track.style.setProperty('--step', FMT_STATE[key]);
+  const wrap = document.querySelector(`.fmt-stepper[data-fmt="${key}"]`);
+  if (!wrap) return;
+  const btns = wrap.querySelectorAll('.fmt-step-btn');
+  const max = FMT_STEPS[key].length - 1;
+  if (btns[0]) btns[0].disabled = FMT_STATE[key] === 0;
+  if (btns[1]) btns[1].disabled = FMT_STATE[key] === max;
+  const valEl = document.getElementById(VALUE_ID[key]);
+  if (valEl) valEl.textContent = FMT_STEPS[key][FMT_STATE[key]];
+}
+
+function stepFmt(key, dir) {
+  const max = FMT_STEPS[key].length - 1;
+  FMT_STATE[key] = Math.max(0, Math.min(max, FMT_STATE[key] + dir));
+  syncStepperUI(key);
+  applyFmt(key, FMT_STATE[key]);
+}
+
+function trackClick(e, key) {
+  const track = e.currentTarget;
+  const rect = track.getBoundingClientRect();
+  const pct = (e.clientX - rect.left) / rect.width;
+  const max = FMT_STEPS[key].length - 1;
+  const step = Math.max(0, Math.min(max, Math.round(pct * max)));
+  FMT_STATE[key] = step;
+  syncStepperUI(key);
+  applyFmt(key, step);
+}
+
+function applyFmt(key, step) {
+  const resume = document.getElementById('resume');
+  // Remove all of this key's classes, then apply the one for the current step (Medium = no class)
+  FMT_CLASS[key].forEach(c => { if (c) resume.classList.remove(c); });
+  const cls = FMT_CLASS[key][step];
+  if (cls) resume.classList.add(cls);
+  showToast(({spacing:'Spacing',lineheight:'Line height',fontsize:'Font size'})[key] + ': ' + FMT_STEPS[key][step]);
+}
+
+// Initial UI sync (boundary states + value labels)
+['spacing','lineheight','fontsize'].forEach(syncStepperUI);
+
+function setTheme(color, name, el) {
+  el.parentElement.querySelectorAll('.theme-c').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  document.getElementById('resume').style.setProperty('--accent', color);
+  const v = document.getElementById('themeValue');
+  if (v) v.textContent = name;
+  showToast('Theme: ' + name);
+}
+
+function setFont(sel) {
+  const opt = sel.options[sel.selectedIndex];
+  const family = opt.dataset.family;
+  const name = opt.text;
+  document.getElementById('resume').style.setProperty('--rfont', family);
+  const v = document.getElementById('fontValue');
+  if (v) v.textContent = name;
+  showToast('Font: ' + name);
+}
+
+// ── Template switching (every template is free to try) ───
+function pickTemplate(name, el) {
+  const isPro = el.dataset.tier === 'pro';
+  document.querySelectorAll('.tpl-card').forEach(c => c.classList.remove('on'));
+  el.classList.add('on');
+  const r = document.getElementById('resume');
+  const preserved = Array.from(r.classList).filter(c => c.startsWith('spacing-') || c.startsWith('fz-') || c.startsWith('lh-'));
+  const custom = el.querySelector('.tpl-prev-custom');
+  r.className = ['resume', 't-' + (custom ? 'modern' : name), ...preserved].join(' ');
+  const head = r.querySelector('.r-head'), nm = r.querySelector('.r-name'), tt = r.querySelector('.r-title');
+  head.style.background = ''; nm.style.color = ''; tt.style.color = '';
+  const themeBtn = document.querySelector('.theme-c.on');
+  r.style.setProperty('--accent', themeBtn ? themeBtn.style.backgroundColor : '#457EFF');
+  if (custom) {
+    head.style.background = custom.style.getPropertyValue('--c-head');
+    nm.style.color = custom.style.getPropertyValue('--c-name');
+    tt.style.color = custom.style.getPropertyValue('--c-title');
+    r.style.setProperty('--accent', custom.style.getPropertyValue('--c-accent'));
+  }
+  const nameEl = el.querySelector('.tpl-name');
+  const label = nameEl ? nameEl.textContent.trim() : name.charAt(0).toUpperCase() + name.slice(1);
+  STATE.proTpl = isPro && !STATE.pass ? label : null;
+  refreshUI();
+  showToast('Template: ' + label + (STATE.proTpl ? ' (Pro preview)' : ''));
+}
+
+function filterTpl(tier, btn) {
+  document.querySelectorAll('.tpl-filter-btn').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  document.querySelectorAll('.tpl-card').forEach(c => {
+    c.style.display = (tier === 'all' || c.dataset.tier === tier) ? '' : 'none';
+  });
+}
+
+// ── Section nav ──────────────────────────────────────────
+function selectSec(el, sec) {
+  document.querySelectorAll('.sec-item').forEach(x => x.classList.remove('on'));
+  el.classList.add('on');
+  showToast('Viewing: ' + sec.charAt(0).toUpperCase() + sec.slice(1));
+}
+
+function showMistakes() { openSuggestions(); }
+
+// ── Subnav: toggle panels open/closed ────────────────────
+function toggleLP(section, btn) {
+  const lp = document.getElementById('lpPanel');
+  const target = document.querySelector(`.lp .lsec[data-section="${section}"]`);
+  const wasHidden = lp.classList.contains('hidden');
+  const sameSection = btn && btn.classList.contains('on');
+  // Clear all LP nav button "on" states
+  document.querySelectorAll('#navSections,#navTemplates,#navFormat').forEach(b => b.classList.remove('on'));
+  if (wasHidden) {
+    lp.classList.remove('hidden');
+    if (btn) btn.classList.add('on');
+    if (target) setTimeout(() => target.scrollIntoView({behavior:'smooth', block:'start'}), 50);
+  } else if (sameSection) {
+    // Same button clicked while open → close panel
+    lp.classList.add('hidden');
+  } else {
+    // Different section while open → just scroll, keep open
+    if (btn) btn.classList.add('on');
+    if (target) target.scrollIntoView({behavior:'smooth', block:'start'});
+  }
+}
+
+function toggleRP(tabId, btn) {
+  const rp = document.getElementById('rpPanel');
+  const wasHidden = rp.classList.contains('hidden');
+  const sameTab = btn && btn.classList.contains('on');
+  document.querySelectorAll('#navSuggestions,#navTailor').forEach(b => b.classList.remove('on'));
+  if (wasHidden) {
+    rp.classList.remove('hidden');
+    if (btn) btn.classList.add('on');
+    // Switch to the requested tab
+    const tabBtn = Array.from(document.querySelectorAll('.rptab')).find(t => {
+      const txt = t.textContent.trim();
+      return tabId === 'suggestions' ? txt.startsWith('AI Suggestions') : txt.startsWith('Tailor');
+    });
+    if (tabBtn) tabBtn.click();
+  } else if (sameTab) {
+    rp.classList.add('hidden');
+  } else {
+    if (btn) btn.classList.add('on');
+    const tabBtn = Array.from(document.querySelectorAll('.rptab')).find(t => {
+      const txt = t.textContent.trim();
+      return tabId === 'suggestions' ? txt.startsWith('AI Suggestions') : txt.startsWith('Tailor');
+    });
+    if (tabBtn) tabBtn.click();
+  }
+}
+
+// Legacy alias used elsewhere in the file
+function scrollToLP(section) { toggleLP(section, document.getElementById('nav' + section.charAt(0).toUpperCase() + section.slice(1))); }
+
+function showScoreTab() { openSuggestions(); }
+
+// ── Passes ───────────────────────────────────────────────
+function showPaywall(title, sub, alt) {
+  document.getElementById('paywallModalTitle').textContent = title || 'Unlock everything for this job hunt';
+  document.getElementById('paywallModalSub').textContent = sub || 'Pay once, use it for your whole search. No subscription needed.';
+  const altBtn = document.getElementById('passAlt');
+  altBtn.style.display = alt ? '' : 'none';
+  if (alt) { altBtn.textContent = alt.label; altBtn.onclick = alt.fn; }
+  document.getElementById('paywallModal').classList.add('on');
+}
+function pickPass(btn) {
+  document.querySelectorAll('.pass-opt').forEach(b => b.classList.remove('on'));
+  btn.classList.add('on');
+  const price = btn.dataset.price;
+  document.getElementById('passCta').textContent = `Pay ₹${price} with UPI`;
+  document.getElementById('passFoot').textContent = price === '499'
+    ? 'Renews at ₹499 every month until you cancel.'
+    : 'One-time payment. Nothing is charged again.';
+}
+function buyPass() {
+  const sel = document.querySelector('.pass-opt.on');
+  STATE.pass = true; STATE.proTpl = null;
+  closeModal('paywallModal');
+  showToast(sel.dataset.name + ' active (demo payment)');
+  refreshUI();
+}
+
+// ── AI fixes as accept / reject diffs ────────────────────
+const canFix = () => STATE.pass || STATE.freeFixes > 0;
+
+function startFix(id) {
+  const i = ISSUES.find(x => x.id === id), el = issueEl(i);
+  if (!el || !isOpen(i) || el.dataset.diffing === '1') return false;
+  if (!canFix()) {
+    showPaywall('You have used your 3 free AI fixes', 'The issue and the reason stay visible, so you can rewrite it yourself for free. A pass gives unlimited one-tap fixes.');
+    return false;
+  }
+  const coach = document.querySelector(`[data-coach="${i.section}"]`);
+  if (coach) { coach.dataset.dismissed = '1'; coach.classList.add('hidden'); }
+  el.dataset.prev = el.innerHTML; el.dataset.prevCls = el.className; el.dataset.diffing = '1';
+  el.contentEditable = 'false';
+  el.innerHTML = `<span class="diff-del">${escHtml(el.textContent.trim())}</span> <span class="diff-ins">${escHtml(i.after)}</span>`;
+  const bar = document.createElement('div');
+  bar.className = 'diff-bar'; bar.dataset.for = id;
+  bar.innerHTML = `<span>${i.kind} · +${i.pts} points</span><button class="diff-btn diff-reject" onclick="rejectFix('${id}')">Keep mine</button><button class="diff-btn diff-accept" onclick="acceptFix('${id}')">Accept</button>`;
+  el.insertAdjacentElement('afterend', bar);
+  el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  return true;
+}
+function endDiff(el, id) {
+  delete el.dataset.diffing;
+  el.contentEditable = 'true';
+  const bar = document.querySelector(`.diff-bar[data-for="${id}"]`);
+  if (bar) bar.remove();
+}
+function acceptFix(id) {
+  const i = ISSUES.find(x => x.id === id), el = issueEl(i);
+  if (!el || el.dataset.diffing !== '1') return;
+  const prev = el.dataset.prev, prevCls = el.dataset.prevCls, charged = !STATE.pass;
+  el.textContent = i.after;
+  el.classList.remove('bullet-flag-err', 'bullet-flag-warn');
+  endDiff(el, id);
+  if (charged) STATE.freeFixes--;
+  el.classList.remove('voice-flash'); void el.offsetWidth; el.classList.add('voice-flash');
+  STATE.undo = () => { el.innerHTML = prev; el.className = prevCls; if (charged) STATE.freeFixes++; refreshUI(); };
+  refreshUI();
+}
+function rejectFix(id) {
+  const i = ISSUES.find(x => x.id === id), el = issueEl(i);
+  if (!el || el.dataset.diffing !== '1') return;
+  el.innerHTML = el.dataset.prev;
+  endDiff(el, id);
+  refreshUI();
+}
+function fixAll() {
+  const list = openIssues().filter(i => issueEl(i).dataset.diffing !== '1').sort((a, b) => b.pts - a.pts);
+  const n = STATE.pass ? list.length : Math.min(list.length, STATE.freeFixes);
+  if (!n) return showPaywall('Fix the rest in one tap', 'You have used your 3 free AI fixes. Every issue stays visible, so you can also rewrite it yourself.');
+  const before = scoreNow();
+  list.slice(0, n).forEach((i, k) => setTimeout(() => { if (startFix(i.id)) acceptFix(i.id); if (k === n - 1) showToast(`Score ${before} → ${scoreNow()}`); }, k * 450));
+}
+function fixSection(section) {
+  const i = openIssues().find(x => x.section === section);
+  if (i) startFix(i.id);
+}
+function boostBullet(btn) {
+  const b = btn.closest('.bullet-wrap').querySelector('.r-bullet');
+  const i = ISSUES.find(x => x.id === b.dataset.issue);
+  if (i && isOpen(i)) return startFix(i.id);
+  showPaywall('3 alternative rewrites for any bullet', 'This bullet has no flagged issue. With a pass, AI offers three stronger versions of any line you pick.');
+}
+function removeBullet(btn) {
+  btn.closest('.bullet-wrap').remove();
+  refreshUI();
+  showToast('Bullet removed');
+}
+function dismissCoach(btn) {
+  const coach = btn.closest('.inline-paywall');
+  coach.dataset.dismissed = '1';
+  coach.classList.add('hidden');
+}
+
+// ── Score and UI refresh ─────────────────────────────────
+let currentScore = 84;
+function setScore(n) {
+  currentScore = n;
+  const main = document.getElementById('scoreMain');
+  main.textContent = n;
+  main.style.color = n >= 90 ? 'var(--ok)' : 'var(--accent)';
+  const k = openIssues().length;
+  document.getElementById('scorePct').textContent = k ? `/100 · ${k} to fix` : '/100 · all clear';
+}
+function refreshUI() {
+  setScore(scoreNow());
+  document.querySelectorAll('.sec-item').forEach(item => {
+    const badge = item.querySelector('.sec-mistakes');
+    if (!badge) return;
+    const n = openIssues().filter(i => i.section === item.querySelector('.sec-name').textContent).length;
+    badge.textContent = n;
+    badge.title = n + ' to improve — tap to see why (free)';
+    badge.style.display = n ? '' : 'none';
+  });
+  document.querySelectorAll('[data-coach]').forEach(coach => {
+    const list = openIssues().filter(i => i.section === coach.dataset.coach && issueEl(i).dataset.diffing !== '1');
+    if (!list.length || coach.dataset.dismissed === '1') { coach.classList.add('hidden'); return; }
+    coach.classList.remove('hidden');
+    coach.innerHTML = `<button class="inline-paywall-close" onclick="dismissCoach(this)" aria-label="Dismiss">✕</button>
+      <div class="inline-paywall-head"><span class="ipd"></span>${list.length} thing${list.length === 1 ? '' : 's'} to improve here</div>
+      <ul class="coach-list">${list.map(i => `<li><b>${i.kind}</b> — ${escHtml(i.why)}</li>`).join('')}</ul>
+      <button class="inline-paywall-cta" onclick="fixSection('${coach.dataset.coach}')">Show the fix${STATE.pass || STATE.freeFixes > 0 ? ' — free' : ''}</button>`;
+  });
+  const pill = document.getElementById('navFreePill');
+  pill.textContent = STATE.pass ? 'PASS' : STATE.freeFixes + ' FREE';
+  pill.style.display = STATE.pass || STATE.freeFixes > 0 ? '' : 'none';
+  const q = document.getElementById('vdQuota');
+  if (q) q.textContent = STATE.pass ? 'Pass active · unlimited AI fixes' : STATE.freeFixes + ' of 3 free AI fixes left';
+  const tab = document.querySelector('.rptab.on');
+  if (tab && tab.textContent.trim().startsWith('AI') && !document.getElementById('rpPanel').classList.contains('hidden')) switchRP('suggestions', tab);
+  const chip = document.getElementById('proChip');
+  chip.classList.toggle('on', !!STATE.proTpl);
+  if (STATE.proTpl) chip.innerHTML = `Previewing “${escHtml(STATE.proTpl)}”, a Pro template. Free to try; a pass is needed to download with it. <button class="rp-link" onclick="backToFree()">Back to Classic</button>`;
+  if (typeof renderInterview === 'function') renderInterview();
+}
+const recalcScore = refreshUI;
+function backToFree() { document.querySelector(`.tpl-card[onclick*="'classic'"]`).click(); }
+function openSuggestions() {
+  const nav = document.getElementById('navSuggestions');
+  if (document.getElementById('rpPanel').classList.contains('hidden') || !nav.classList.contains('on')) toggleRP('suggestions', nav);
+}
+
+// Live refresh + autosave on edit
+const resumeEl = document.getElementById('resume');
+let recalcTimer;
+function saveDraft() {
+  if (resumeEl.querySelector('[data-diffing]')) return;
+  try { localStorage.setItem('nr_draft_v2', resumeEl.innerHTML); } catch (e) {}
+}
+resumeEl.addEventListener('input', () => {
+  clearTimeout(recalcTimer);
+  recalcTimer = setTimeout(() => { refreshUI(); saveDraft(); }, 500);
+});
+
+// ── Start screen ─────────────────────────────────────────
+function closeStart() { document.getElementById('startOverlay').classList.add('hidden'); }
+function startWith(kind) {
+  if (kind === 'sample') return closeStart();
+  if (kind === 'talk') { closeStart(); return openVoice('interview'); }
+  if (kind === 'resume') {
+    try { const d = localStorage.getItem('nr_draft_v2'); if (d) resumeEl.innerHTML = d; } catch (e) {}
+    closeStart(); refreshUI(); return;
+  }
+  const file = document.getElementById('startFile').files[0];
+  const steps = [
+    kind === 'upload' && file ? 'Reading ' + file.name : 'Reading your Naukri profile',
+    'Found 3 roles, 11 skills and 1 degree',
+    'Checking wording and ATS readability',
+    'Score ready: ' + scoreNow() + '/100, with ' + openIssues().length + ' things to improve'
+  ];
+  document.getElementById('startOpts').style.display = 'none';
+  document.getElementById('startSub').textContent = 'Building your resume…';
+  const box = document.getElementById('startProgress');
+  box.classList.add('on');
+  box.innerHTML = steps.map(s => `<div class="start-step">${escHtml(s)}</div>`).join('');
+  const rows = box.querySelectorAll('.start-step');
+  rows.forEach((r, k) => setTimeout(() => r.classList.add('done'), 450 * (k + 1)));
+  setTimeout(() => { closeStart(); openSuggestions(); showToast('Demo: sample profile data loaded'); }, 450 * steps.length + 600);
+}
+try { if (localStorage.getItem('nr_draft_v2')) document.getElementById('startResume').style.display = ''; } catch (e) {}
+
+// ── Versions ─────────────────────────────────────────────
+function switchVer(el, name) {
+  document.querySelectorAll('.vtab').forEach(t => t.classList.remove('on'));
+  el.classList.add('on');
+  showToast('Viewing: ' + name);
+}
+function newVersion() { document.getElementById('verModal').classList.add('on'); }
+function createVersion() {
+  closeModal('verModal');
+  const btn = document.createElement('button');
+  btn.className = 'vtab';
+  btn.textContent = 'Meesho PM';
+  btn.onclick = () => switchVer(btn, 'Meesho PM');
+  document.querySelector('.versions').insertBefore(btn, document.querySelector('.btn-new-ver'));
+  setTimeout(() => switchVer(btn, 'Meesho PM'), 100);
+  showToast('New version created: Meesho PM');
+}
+
+// ── Modal ────────────────────────────────────────────────
+function closeModal(id) { document.getElementById(id).classList.remove('on'); }
+function openPreview() { showToast('PDF preview ready'); }
+
+// ── Download popover ─────────────────────────────────────
+function toggleDownloadPopover(e) {
+  if (e) e.stopPropagation();
+  document.getElementById('downloadPopover').classList.toggle('on');
+}
+
+function onBrandToggle(el) {
+  const isOn = el.checked;
+  const dlpAction = document.getElementById('dlpAction');
+  const proHint = document.getElementById('dlpProHint');
+  const dlBtn = document.getElementById('downloadBtn');
+  if (isOn) {
+    dlpAction.className = 'dlp-action free';
+    dlpAction.textContent = 'Download PDF';
+    proHint.style.display = 'none';
+    dlBtn.classList.remove('tbtn-pro');
+    dlBtn.classList.add('tbtn-ok');
+    dlBtn.innerHTML = '⬇ Download';
+  } else {
+    dlpAction.className = 'dlp-action pro';
+    dlpAction.innerHTML = 'Get a pass to download';
+    proHint.style.display = 'flex';
+    dlBtn.classList.remove('tbtn-ok');
+    dlBtn.classList.add('tbtn-pro');
+    dlBtn.innerHTML = '⬇ Download <span class="pro-pill-mini">PRO</span>';
+  }
+}
+
+function onDownloadConfirm() {
+  const branded = document.getElementById('brandToggle').checked;
+  document.getElementById('downloadPopover').classList.remove('on');
+  if (STATE.proTpl) {
+    return showPaywall(`“${STATE.proTpl}” is a Pro template`, 'You can keep previewing it for free. To download with it, pick a pass — or switch back to a free template.',
+      { label: 'Switch to Classic and download free', fn: () => { backToFree(); closeModal('paywallModal'); showToast('Downloading PDF…'); } });
+  }
+  if (branded || STATE.pass) return showToast('Downloading PDF…');
+  showPaywall('Download without the footer', 'A clean PDF with no Naukri footer is included in every pass. The standard PDF stays free.');
+}
+function onDownloadDocx() {
+  document.getElementById('downloadPopover').classList.remove('on');
+  if (STATE.pass) return showToast('Downloading Word file…');
+  showPaywall('Download as Word (.docx)', 'Many consultancies and recruiters ask for Word. It is included in every pass.');
+}
+
+// Close popover on outside click
+document.addEventListener('click', e => {
+  if (!e.target.closest('.download-wrap')) {
+    const p = document.getElementById('downloadPopover');
+    if (p) p.classList.remove('on');
+  }
+});
+
+// ── Toast ────────────────────────────────────────────────
+let toastTimer;
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ── Voice: interview (primary) + quick edits ─────────────
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+const VOICE = { rec:null, listening:false, muted:true, lang:'en-IN', mode:'interview' };
+const $v = id => document.getElementById(id);
+
+function openVoice(mode) {
+  $v('voiceWrap').classList.add('open');
+  document.body.classList.add('voice-open');
+  setVoiceMode(mode || VOICE.mode);
+}
+function closeVoice() {
+  stopListen();
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  $v('voiceWrap').classList.remove('open');
+  document.body.classList.remove('voice-open');
+}
+function setVoiceMode(mode) {
+  VOICE.mode = mode;
+  document.querySelectorAll('.vd-tab').forEach(t => t.classList.toggle('on', t.dataset.mode === mode));
+  $v('vdInterview').classList.toggle('on', mode === 'interview');
+  $v('vdEdit').classList.toggle('on', mode === 'edit');
+  $v('vdType').placeholder = mode === 'interview' ? '…or type your answer' : '…or type what to change';
+  setVoiceStatus(mode === 'interview' ? 'Tap the mic and answer aloud' : 'Tap the mic and say what to change',
+    mode === 'interview' ? 'Hindi, Hinglish or English all work' : '"The text is too small" · "Fix my weak bullets"');
+  renderInterview();
+}
+function setVoiceLang(lang, btn) {
+  VOICE.lang = lang;
+  document.querySelectorAll('.vd-lang button').forEach(b => b.classList.toggle('on', b === btn));
+  stopListen();
+  renderInterview();
+}
+function toggleVoiceMute() {
+  VOICE.muted = !VOICE.muted;
+  $v('vdMute').classList.toggle('off', VOICE.muted);
+  $v('vdMute').title = VOICE.muted ? 'Spoken replies are off' : 'Spoken replies are on';
+  if (VOICE.muted && window.speechSynthesis) speechSynthesis.cancel();
+}
+function setVoiceStatus(main, sub) {
+  $v('vdStatus').textContent = main;
+  if (sub !== undefined) $v('vdSub').textContent = sub;
+}
+function speak(text) {
+  if (VOICE.muted || !window.speechSynthesis) return;
+  speechSynthesis.cancel();
+  const u = new SpeechSynthesisUtterance(text);
+  u.lang = VOICE.lang; u.rate = 1.05;
+  speechSynthesis.speak(u);
+}
+function stopListen() {
+  if (VOICE.rec && VOICE.listening) VOICE.rec.stop();
+  VOICE.listening = false;
+  $v('vdMic').classList.remove('listening');
+}
+function toggleListen() {
+  if (VOICE.listening) return stopListen();
+  if (!SR) return setVoiceStatus('Voice is not supported in this browser', 'Type below instead — it works the same way');
+  if (window.speechSynthesis) speechSynthesis.cancel();
+  const rec = VOICE.rec = new SR();
+  rec.lang = VOICE.lang;
+  rec.interimResults = true;
+  let finalText = '';
+  rec.onstart = () => { VOICE.listening = true; $v('vdMic').classList.add('listening'); setVoiceStatus('Listening…'); };
+  rec.onresult = e => {
+    let interim = '';
+    for (let i = e.resultIndex; i < e.results.length; i++) {
+      if (e.results[i].isFinal) finalText += e.results[i][0].transcript;
+      else interim += e.results[i][0].transcript;
+    }
+    setVoiceStatus((finalText + interim).trim() || 'Listening…');
+  };
+  rec.onerror = e => {
+    const blocked = e.error === 'not-allowed' || e.error === 'service-not-allowed';
+    setVoiceStatus(blocked ? 'Microphone is blocked' : 'I did not catch that', blocked ? 'Allow mic access, or type below' : 'Tap the mic to try again, or type below');
+  };
+  rec.onend = () => {
+    VOICE.listening = false;
+    $v('vdMic').classList.remove('listening');
+    if (finalText.trim()) voiceInput(finalText.trim());
+  };
+  try { rec.start(); } catch (err) { setVoiceStatus('Could not start the mic', 'Type below instead'); }
+}
+function voiceInput(text) {
+  stopListen();
+  if (VOICE.mode === 'interview') ivAnswer(text, false); else handleVoice(text);
+}
+
+// ── Interview: speak about your work, get bullets ────────
+const IV_Q = [
+  { en:'Which company was it, and what was your role?', hi:'आप किस कंपनी में थे, और आपका रोल क्या था?',
+    sample:'Main PhonePe mein tha, Product Manager, merchant growth team' },
+  { en:'What is the one thing you did there that you are proudest of?', hi:'वहाँ आपने सबसे बड़ा काम कौन सा किया?',
+    sample:'Humne chhote dukandaaron ke liye QR onboarding dobara banaya, pehle 3 din lagte the' },
+  { en:'What changed because of it? Any numbers — users, revenue, time saved, team size?', hi:'उससे क्या बदला? कोई नंबर — यूज़र, रेवेन्यू, समय, टीम?',
+    sample:'Ab 10 minute mein ho jaata hai, har mahine 40 hazaar naye merchant aane lage, team mein 5 log the' }
+];
+const IV_SAMPLE_DRAFT = { title:'Product Manager, Merchant Growth', co:'PhonePe', bullets:[
+  'Rebuilt QR onboarding for small merchants, cutting activation time from 3 days to 10 minutes',
+  'Grew new-merchant activations to 40,000 a month after the relaunch',
+  'Led a 5-person team through the redesign and rollout' ] };
+const IV = { step:0, answers:[], samples:0, draft:null, busy:false };
+
+function ivReset() { IV.step = 0; IV.answers = []; IV.samples = 0; IV.draft = null; IV.busy = false; }
+function ivClean(s) {
+  let t = s.trim().replace(/[.\s]+$/, '');
+  for (let k = 0; k < 3; k++) t = t.replace(/^(so|well|um+|uh+|basically|actually|and|then|i|we)\b[\s,]*/i, '');
+  return t.charAt(0).toUpperCase() + t.slice(1);
+}
+function ivBuildDraft() {
+  if (IV.samples === IV_Q.length) return { ...IV_SAMPLE_DRAFT, note:'Sample answers in Hinglish, written up as English bullets using only the facts spoken.' };
+  const all = IV.answers.join(' ');
+  if (/[ऀ-ॿ]/.test(all) || VOICE.lang === 'hi-IN') {
+    return { ...IV_SAMPLE_DRAFT, note:'Prototype note: this is a sample draft. The live product would translate and polish your own Hindi answers.' };
+  }
+  const bullets = (IV.answers[1] + '. ' + IV.answers[2]).split(/[.;]\s+|\s+and then\s+/).map(ivClean).filter(b => b.length > 8).slice(0, 3);
+  return { title: ivClean(IV.answers[0]), co:'', bullets: bullets.length ? bullets : [ivClean(IV.answers[1])],
+    note:'Prototype note: this is a light clean-up of your words. The live product would polish them into recruiter-ready bullets.' };
+}
+function ivAnswer(text, isSample) {
+  if (IV.draft || IV.busy || (!STATE.pass && STATE.freeInterviews <= 0)) return;
+  IV.answers.push(text); if (isSample) IV.samples++;
+  IV.step++;
+  if (IV.step >= IV_Q.length) {
+    IV.busy = true; renderInterview();
+    setTimeout(() => { IV.busy = false; IV.draft = ivBuildDraft(); renderInterview(); speak('Here is your draft. Add it to your resume if it looks right.'); }, 900);
+  } else { renderInterview(); speak(IV_Q[IV.step][VOICE.lang === 'hi-IN' ? 'hi' : 'en']); }
+}
+function ivAdd() {
+  const d = IV.draft; if (!d) return;
+  const job = document.createElement('div');
+  job.className = 'r-job';
+  job.innerHTML = `<div class="r-job-title" contenteditable="true">${escHtml(d.title)}</div>
+    <div class="r-job-co" contenteditable="true">${escHtml(d.co || 'Company')}</div>
+    <div class="r-job-date" contenteditable="true">Add dates</div>
+    <ul class="r-bullets">${d.bullets.map(b => `<li class="bullet-wrap"><span class="r-bullet" contenteditable="true">${escHtml(b)}</span>
+      <div class="bl-actions"><button class="bl-btn bl-ai" onclick="boostBullet(this)" title="AI rewrite">✦ AI</button><button class="bl-btn bl-rm" onclick="removeBullet(this)">✕</button></div></li>`).join('')}</ul>`;
+  const first = document.querySelector('.r-main .r-job');
+  first.parentElement.insertBefore(job, first);
+  job.classList.add('voice-flash');
+  job.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  const charged = !STATE.pass;
+  if (charged) STATE.freeInterviews--;
+  STATE.undo = () => { job.remove(); if (charged) STATE.freeInterviews++; refreshUI(); };
+  ivReset();
+  showToast('Added to Experience — tap any line to edit');
+  refreshUI(); saveDraft();
+}
+function renderInterview() {
+  const box = $v('vdInterview');
+  if (!box) return;
+  const hi = VOICE.lang === 'hi-IN';
+  if (IV.busy) { box.innerHTML = `<div class="iv-q" style="margin-top:14px;">Writing your bullets…</div>`; return; }
+  if (IV.draft) {
+    const d = IV.draft;
+    box.innerHTML = `<div class="iv-draft"><div class="iv-draft-role">${escHtml(d.title)}</div><div class="iv-draft-co">${escHtml(d.co)}</div>
+      <ul>${d.bullets.map(b => `<li>${escHtml(b)}</li>`).join('')}</ul></div>
+      <div class="iv-note">${escHtml(d.note)}</div>
+      <div class="vd-card-row"><button class="vd-link" onclick="ivReset();renderInterview()">Start over</button><button class="rp-btn" style="width:auto;margin:0;padding:9px 16px;" onclick="ivAdd()">Add to my resume</button></div>`;
+    return;
+  }
+  if (!STATE.pass && STATE.freeInterviews <= 0) {
+    box.innerHTML = `<div class="vd-card pro" style="margin-top:12px;"><div><b>Your first role is in.</b> Talk through every role, project and career gap the same way with a pass.</div>
+      <div class="vd-card-row"><button class="vd-link" onclick="if(STATE.undo){STATE.undo();STATE.undo=null;}">Undo last add</button><button class="vd-pro-cta" onclick="showPaywall('Build your whole resume by talking','Answer three questions per role in Hindi or English, and get every role written up.')">Passes from ₹99</button></div></div>`;
+    return;
+  }
+  const q = IV_Q[IV.step];
+  box.innerHTML = `<div class="iv-dots">${IV_Q.map((_, k) => `<i class="${k <= IV.step ? 'on' : ''}"></i>`).join('')}</div>
+    <div class="iv-q">${escHtml(hi ? q.hi : q.en)}</div>
+    <div class="iv-hint">Question ${IV.step + 1} of ${IV_Q.length} · Speak the way you normally talk. Numbers help.${STATE.pass ? '' : ' One role is free.'}</div>
+    ${IV.answers.length ? `<div class="iv-answers">${IV.answers.map(a => '“' + escHtml(a) + '”').join('<br>')}</div>` : ''}
+    <div class="vd-chips"><button class="vd-chip" onclick="ivAnswer(IV_Q[IV.step].sample,true)">Use a sample answer: “${escHtml(q.sample)}”</button></div>`;
+}
+
+// ── Quick edits by voice or text ─────────────────────────
+function voiceReply(heard, html, cardHtml) {
+  $v('vdLog').classList.add('on');
+  $v('vdHeard').textContent = '“' + heard + '”';
+  $v('vdReply').innerHTML = html;
+  $v('vdCard').innerHTML = cardHtml || '';
+  setVoiceStatus('Anything else?', 'Tap the mic to keep going');
+  speak($v('vdReply').textContent);
+}
+function voiceStep(key, dir) {
+  const before = FMT_STATE[key];
+  stepFmt(key, dir);
+  return FMT_STATE[key] !== before;
+}
+function voiceUndo() {
+  if (!STATE.undo) return false;
+  STATE.undo(); STATE.undo = null;
+  return true;
+}
+function pageCount() {
+  // Measure a copy at the real page width so the answer does not depend on the window size
+  const c = resumeEl.cloneNode(true);
+  c.removeAttribute('id');
+  c.style.cssText += ';position:absolute;left:-9999px;top:0;width:720px;';
+  c.querySelectorAll('.inline-paywall,.diff-bar').forEach(x => x.remove());
+  document.body.appendChild(c);
+  const pages = c.scrollHeight / (720 * 1.414);
+  c.remove();
+  return pages;
+}
+function fitOnePage() {
+  const done = [];
+  const order = ['spacing', 'lineheight', 'spacing', 'lineheight', 'fontsize'];
+  for (const key of order) {
+    if (pageCount() <= 1) break;
+    if (voiceStep(key, -1)) done.push(key);
+  }
+  STATE.undo = () => done.forEach(k => stepFmt(k, +1));
+  return { pages: pageCount(), changed: done.length };
+}
+function voiceFix(raw, ids) {
+  const i = ids.map(id => ISSUES.find(x => x.id === id)).find(isOpen);
+  if (!i) return voiceReply(raw, 'Nothing is flagged there. It already reads well.');
+  if (!canFix()) {
+    return voiceReply(raw, `<b>${i.kind}:</b> ${escHtml(i.why)}`,
+      `<div class="vd-card pro"><div class="vd-card-row" style="margin-top:0;"><span>You have used your 3 free AI fixes. You can rewrite this yourself, or get unlimited one-tap fixes.</span><button class="vd-pro-cta" onclick="showPaywall()">Passes from ₹99</button></div></div>`);
+  }
+  startFix(i.id);
+  voiceReply(raw, `<b>${i.kind}.</b> I have put a suggested rewrite on your resume. Accept it or keep yours.`);
+}
+
+function handleVoice(raw) {
+  stopListen();
+  const t = ' ' + raw.toLowerCase() + ' ';
+  const has = (...w) => w.some(x => t.includes(x));
+  const up = has('cramped', 'crowded', 'congested') || (has('bigger', 'larger', 'increase', 'more', 'too small', 'hard to read', "can't read", 'cannot read', 'breathing', 'looser', ' bada', ' badha') && !has('too much'));
+  const down = !up && has('smaller', 'reduce', 'decrease', 'less', 'tighter', 'compact', 'too big', 'too large', 'too much', 'shrink', 'chhota', 'chota');
+
+  if (has('undo', 'revert', 'go back', 'put it back', 'wapas')) {
+    return voiceReply(raw, voiceUndo() ? 'Done. I have put it back the way it was.' : 'There is nothing to undo yet.');
+  }
+  if (has('tailor', 'job description', 'this job', 'this role')) {
+    if (document.getElementById('rpPanel').classList.contains('hidden') || !$v('navTailor').classList.contains('on')) toggleRP('jd', $v('navTailor'));
+    return voiceReply(raw, 'I have opened Tailor for Job. Paste the job description and you will see your match and missing keywords free.');
+  }
+  if (has('one page', 'single page', 'ek page') || (has('too long') && !has('summary'))) {
+    const r = fitOnePage();
+    return voiceReply(raw, r.pages <= 1
+      ? (r.changed ? 'It now fits on one page. I tightened spacing' + (FMT_STATE.fontsize < 2 ? ' and reduced the font size a step.' : '.') : 'It already fits on one page.')
+      : `I tightened everything I safely can, and it is still about ${r.pages.toFixed(1)} pages. Removing a bullet or two will get it to one.`);
+  }
+  if (has('line height', 'line spacing', 'between lines')) {
+    const d = down ? -1 : +1, ok = voiceStep('lineheight', d);
+    STATE.undo = ok ? () => stepFmt('lineheight', -d) : null;
+    return voiceReply(raw, ok ? `Line height is now <b>${FMT_STEPS.lineheight[FMT_STATE.lineheight]}</b>.` : 'Line height is already at its limit.');
+  }
+  if (has('spacing', 'space', 'cramped', 'crowded', 'congested', 'breathing', 'compact', 'spread')) {
+    const d = (down || has('spread')) ? -1 : +1, ok = voiceStep('spacing', d);
+    STATE.undo = ok ? () => stepFmt('spacing', -d) : null;
+    return voiceReply(raw, ok ? `Section spacing is now <b>${FMT_STEPS.spacing[FMT_STATE.spacing]}</b>.` : 'Spacing is already at its limit.');
+  }
+  if (/\b(satoshi|inter)\b/.test(t) && has('font')) {
+    const sel = document.querySelector('.fmt-select'), prevIdx = sel.selectedIndex;
+    sel.selectedIndex = has('satoshi') ? 1 : 0; setFont(sel);
+    STATE.undo = () => { sel.selectedIndex = prevIdx; setFont(sel); };
+    return voiceReply(raw, `Switched the font to <b>${sel.options[sel.selectedIndex].text}</b>.`);
+  }
+  if (has('font', 'text', 'size', ' read', 'bigger', 'larger', 'smaller', ' bada', 'chhota', 'chota') && (up || down)) {
+    const d = up ? +1 : -1, ok = voiceStep('fontsize', d);
+    STATE.undo = ok ? () => stepFmt('fontsize', -d) : null;
+    return voiceReply(raw, ok ? `Font size is now <b>${FMT_STEPS.fontsize[FMT_STATE.fontsize]}</b>.` : 'Font size is already at its limit.');
+  }
+  const themes = [['blue', 'neela'], ['amber', 'gold', 'yellow', 'orange', 'peela'], ['green', ' hara'], ['slate', 'grey', 'gray'], ['charcoal', 'black', 'dark', 'kaala']];
+  const ti = themes.findIndex(names => has(...names));
+  if (ti > -1) {
+    const btns = document.querySelectorAll('.theme-c'), prevBtn = document.querySelector('.theme-c.on');
+    btns[ti].click();
+    STATE.undo = () => prevBtn && prevBtn.click();
+    return voiceReply(raw, `Changed the theme to <b>${$v('themeValue').textContent}</b>.`);
+  }
+  const tpl = ['classic', 'minimal', 'modern', 'bold'].find(n => has(' ' + n + ' '));
+  if (tpl && has('template', 'switch', 'use ', 'try ')) {
+    const card = document.querySelector(`.tpl-card[onclick*="'${tpl}'"]`), prevCard = document.querySelector('.tpl-card.on');
+    card.click();
+    STATE.undo = () => prevCard && prevCard.click();
+    const name = tpl.charAt(0).toUpperCase() + tpl.slice(1);
+    return voiceReply(raw, card.dataset.tier === 'pro' && !STATE.pass
+      ? `You are now previewing <b>${name}</b>, a Pro template. It is free to try; a pass is needed to download with it.`
+      : `Switched to the <b>${name}</b> template.`);
+  }
+  if (has('template', 'design', 'layout')) {
+    if ($v('lpPanel').classList.contains('hidden') || !$v('navTemplates').classList.contains('on')) toggleLP('template', $v('navTemplates'));
+    return voiceReply(raw, 'Here are the templates. Every one is free to try.');
+  }
+  if (has('score', ' ats ', 'how am i doing', 'how good')) {
+    const open = openIssues();
+    openSuggestions();
+    return voiceReply(raw, `Your score is <b>${scoreNow()}</b> out of 100.` + (open.length ? ` ${open.length} thing${open.length === 1 ? ' is' : 's are'} holding it back: ${open.map(i => i.kind.toLowerCase()).join(', ')}. I have opened the list.` : ' Nothing is flagged.'));
+  }
+  if (has('download', 'export', ' pdf')) {
+    $v('downloadPopover').classList.add('on');
+    return voiceReply(raw, 'Opened the download options for you.');
+  }
+  if (has('everything', 'fix all', 'all of', 'whole resume', 'sab ')) {
+    const n = STATE.pass ? openIssues().length : Math.min(openIssues().length, STATE.freeFixes);
+    fixAll();
+    return voiceReply(raw, n ? `Applying ${n} fix${n === 1 ? '' : 'es'} now. Say "undo" if you do not like the last one.` : 'There is nothing I can fix for free right now.');
+  }
+  if (has('summary', 'about me', 'intro', 'profile')) return voiceFix(raw, ['sum']);
+  if (has('project')) return voiceFix(raw, ['proj']);
+  if (has('bullet', 'experience', 'mistake', 'grammar', 'weak', 'passive', 'impact', 'metric', 'number', 'stronger', 'rewrite', 'improve', 'fix', 'better', 'punch', 'sharper')) return voiceFix(raw, ['passive', 'order', 'sum', 'proj']);
+  voiceReply(raw, 'I can change formatting, templates and colours, or fix flagged wording. Try "the text is too small" or "fix my weak bullets". To add new content, use "Tell me about your work".');
+}
+
+// ── Init ─────────────────────────────────────────────────
+refreshUI();
+</script>
+</body>
+</html>
